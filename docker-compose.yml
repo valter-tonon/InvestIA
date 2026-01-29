@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # --- Backend (NestJS) ---
+  app:
+    container_name: investia-api
+    build: .
+    ports:
+      - "3001:3000" # API (mapeada para 3001 no host)
+      - "9229:9229" # Debugger
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://sardinha:sardinha123@db:5432/investia_db?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - .:/usr/src/app # Sincroniza sua pasta com o container (Hot Reload)
+      - /usr/src/app/node_modules # Evita conflito de OS na pasta node_modules
+    depends_on:
+      - db
+      - redis
+    networks:
+      - investia-net
+
+  # --- Banco de Dados (PostgreSQL) ---
+  db:
+    container_name: investia-db
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: sardinha
+      POSTGRES_PASSWORD: sardinha123
+      POSTGRES_DB: investia_db
+    ports:
+      - "5432:5432" # Libera acesso para seu DBeaver/PgAdmin local
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - investia-net
+
+  # --- Fila/Cache (Redis) ---
+  redis:
+    container_name: investia-redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - investia-net
+
+volumes:
+  pgdata:
+
+
+networks:
+  investia-net:
+    driver: bridge

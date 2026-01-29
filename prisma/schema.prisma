@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Usuário do sistema
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  wallets          Wallet[]
+  strategyProfiles StrategyProfile[]
+  philosophies     Philosophy[]
+
+  @@map("users")
+}
+
+// Filosofia de investimento
+model Philosophy {
+  id            String   @id @default(uuid())
+  title         String
+  description   String?
+  filePath      String   @map("file_path")
+  extractedText String   @map("extracted_text") @db.Text
+  rules         String[] // Array de regras extraídas
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("philosophies")
+}
+
+
+// Ativo financeiro (Ação, FII, etc)
+model Asset {
+  id          String   @id @default(uuid())
+  ticker      String   @unique
+  name        String
+  type        String   // STOCK, REIT, ETF, BDR
+  sector      String?
+  
+  // Indicadores de mercado (atualizados pelo MarketData)
+  currentPrice    Float?   @map("current_price")
+  dividendYield   Float?   @map("dividend_yield")
+  priceToEarnings Float?   @map("price_to_earnings")
+  priceToBook     Float?   @map("price_to_book")
+  roe             Float?
+  netMargin       Float?   @map("net_margin")
+  debtToEquity    Float?   @map("debt_to_equity")
+  
+  lastUpdated DateTime? @map("last_updated")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  walletAssets WalletAsset[]
+
+  @@map("assets")
+}
+
+// Perfil de Estratégia (contém regras dinâmicas em JSON)
+model StrategyProfile {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  
+  // Regras dinâmicas armazenadas como JSON
+  // Exemplo: [{"indicator": "dy", "operator": ">", "value": 0.06}]
+  rules       Json
+  
+  // Fonte da filosofia (documento original)
+  sourceType  String?  @map("source_type") // PDF, TEXT, URL
+  sourceRef   String?  @map("source_ref")
+  
+  isActive    Boolean  @default(true) @map("is_active")
+  
+  userId      String   @map("user_id")
+  user        User     @relation(fields: [userId], references: [id])
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("strategy_profiles")
+}
+
+// Carteira do usuário
+model Wallet {
+  id        String   @id @default(uuid())
+  name      String
+  
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  assets    WalletAsset[]
+
+  @@map("wallets")
+}
+
+// Relação Carteira-Ativo (com quantidade e preço médio)
+model WalletAsset {
+  id           String   @id @default(uuid())
+  
+  walletId     String   @map("wallet_id")
+  wallet       Wallet   @relation(fields: [walletId], references: [id])
+  
+  assetId      String   @map("asset_id")
+  asset        Asset    @relation(fields: [assetId], references: [id])
+  
+  quantity     Float
+  averagePrice Float    @map("average_price")
+  
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@unique([walletId, assetId])
+  @@map("wallet_assets")
+}
