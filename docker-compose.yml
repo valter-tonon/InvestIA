@@ -47,6 +47,21 @@ services:
     networks:
       - investia-net
 
+  # --- Frontend (Next.js) ---
+  frontend:
+    container_name: investia-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    depends_on:
+      - app
+    networks:
+      - investia-net
+
 volumes:
   pgdata:
 
