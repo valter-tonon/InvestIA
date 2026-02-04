@@ -15,7 +15,7 @@ interface AuthContextType {
     loading: boolean;
     login: (data: LoginInput) => Promise<void>;
     register: (data: RegisterInput) => Promise<void>;
-    logout: () => void;
+    logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,42 +29,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         checkAuth();
     }, []);
 
+    // SEC-005: Check auth via /auth/me endpoint (cookies sent automatically)
     const checkAuth = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                const userData = await authApi.me();
-                setUser(userData);
-            }
+            const userData = await authApi.me();
+            setUser(userData);
         } catch (error) {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
+            // No valid session - user not authenticated
+            setUser(null);
         } finally {
             setLoading(false);
         }
     };
 
+    // SEC-005: Login - cookies set automatically by backend, also saving to localStorage for API clients
     const login = async (data: LoginInput) => {
         const response = await authApi.login(data);
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
+        if (response.accessToken) {
+            localStorage.setItem('token', response.accessToken);
+        }
         setUser(response.user);
         router.push('/dashboard');
     };
 
+    // SEC-005: Register - cookies set automatically by backend, also saving to localStorage for API clients
     const register = async (data: RegisterInput) => {
         const response = await authApi.register(data);
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
+        if (response.accessToken) {
+            localStorage.setItem('token', response.accessToken);
+        }
         setUser(response.user);
         router.push('/dashboard');
     };
 
-    const logout = () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        setUser(null);
-        router.push('/login');
+    // SEC-005: Logout - call backend to clear cookies
+    const logout = async () => {
+        try {
+            await authApi.logout();
+        } catch (error) {
+            // Ignore errors on logout
+        } finally {
+            localStorage.removeItem('token');
+            setUser(null);
+            router.push('/login');
+        }
     };
 
     return (

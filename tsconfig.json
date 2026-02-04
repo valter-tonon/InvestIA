@@ -21,5 +21,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "frontend",
+    "test",
+    "**/*spec.ts",
+    "verify-soft-delete.ts"
+  ]
 }

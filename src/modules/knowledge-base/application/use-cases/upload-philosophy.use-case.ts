@@ -1,6 +1,7 @@
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../../../infrastructure/database/prisma.service';
 import { PdfExtractorService } from '../../services/pdf-extractor.service';
+import { RuleExtractionService } from '../../services/rule-extraction.service';
 import { UploadPhilosophyInput } from '../dtos/upload-philosophy.input';
 import { PhilosophyOutput } from '../dtos/philosophy.output';
 
@@ -11,6 +12,7 @@ export class UploadPhilosophyUseCase {
     constructor(
         private readonly prisma: PrismaService,
         private readonly pdfExtractor: PdfExtractorService,
+        private readonly ruleExtraction: RuleExtractionService,
     ) { }
 
     async execute(
@@ -28,11 +30,13 @@ export class UploadPhilosophyUseCase {
             // 1. Extrair texto do PDF
             const extractedText = await this.pdfExtractor.extractText(file.path);
 
-            // 2. Extrair regras
-            const rules = this.pdfExtractor.extractRules(extractedText);
+            // 2. Extrair regras usando LLM (ou fallback para regex)
+            const { rules, structuredRules } = await this.ruleExtraction.extractRules(extractedText);
 
             if (rules.length === 0) {
                 this.logger.warn(`No rules extracted from file: ${file.originalname}`);
+            } else {
+                this.logger.log(`Extracted ${rules.length} rules (${structuredRules ? 'LLM' : 'regex'})`);
             }
 
             // 3. Salvar no banco
@@ -43,6 +47,7 @@ export class UploadPhilosophyUseCase {
                     filePath: file.path,
                     extractedText,
                     rules,
+                    structuredRules: structuredRules ? JSON.parse(JSON.stringify(structuredRules)) : undefined,
                     userId,
                 },
             });
@@ -52,7 +57,6 @@ export class UploadPhilosophyUseCase {
             return PhilosophyOutput.fromEntity(philosophy);
         } catch (error) {
             this.logger.error(`Error processing upload: ${error.message}`);
-            // TODO: Apagar arquivo se falhar (opcional, por enquanto deixa no disco para debug ou implementar cleanup)
             throw error;
         }
     }

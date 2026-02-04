@@ -1,33 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConflictException } from '@nestjs/common';
 import { CreateAssetUseCase } from './create-asset.use-case';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
 import { AssetType } from '../../domain/enums/asset-type.enum';
+import { IAssetRepository } from '../interfaces/asset-repository.interface';
+import { AssetEntity } from '../../domain/entities/asset.entity';
 
 describe('CreateAssetUseCase', () => {
     let useCase: CreateAssetUseCase;
-    let prismaService: jest.Mocked<PrismaService>;
+    let assetRepository: jest.Mocked<IAssetRepository>;
 
     beforeEach(async () => {
-        const mockPrismaService = {
-            asset: {
-                findUnique: jest.fn(),
-                create: jest.fn(),
-            },
+        const mockAssetRepository = {
+            create: jest.fn(),
+            findByTicker: jest.fn(),
+            findById: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+            count: jest.fn(),
+            findByType: jest.fn(),
+            findBySector: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 CreateAssetUseCase,
                 {
-                    provide: PrismaService,
-                    useValue: mockPrismaService,
+                    provide: 'IAssetRepository',
+                    useValue: mockAssetRepository,
                 },
             ],
         }).compile();
 
         useCase = module.get<CreateAssetUseCase>(CreateAssetUseCase);
-        prismaService = module.get(PrismaService);
+        assetRepository = module.get('IAssetRepository');
     });
 
     it('should be defined', () => {
@@ -43,26 +49,18 @@ describe('CreateAssetUseCase', () => {
                 type: AssetType.STOCK,
                 sector: 'Energia',
             };
-            const createdAsset = {
+            const createdAsset = new AssetEntity({
                 id: 'uuid-123',
                 ticker: input.ticker,
                 name: input.name,
                 type: input.type,
                 sector: input.sector,
-                currentPrice: null,
-                dividendYield: null,
-                priceToEarnings: null,
-                priceToBook: null,
-                roe: null,
-                netMargin: null,
-                debtToEquity: null,
-                lastUpdated: null,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-            };
+            });
 
-            prismaService.asset.findUnique.mockResolvedValue(null);
-            prismaService.asset.create.mockResolvedValue(createdAsset);
+            assetRepository.findByTicker.mockResolvedValue(null);
+            assetRepository.create.mockResolvedValue(createdAsset);
 
             // Act
             const result = await useCase.execute(input);
@@ -71,9 +69,12 @@ describe('CreateAssetUseCase', () => {
             expect(result.ticker).toBe(input.ticker);
             expect(result.name).toBe(input.name);
             expect(result.type).toBe(input.type);
-            expect(prismaService.asset.findUnique).toHaveBeenCalledWith({
-                where: { ticker: input.ticker },
-            });
+            expect(assetRepository.findByTicker).toHaveBeenCalledWith(input.ticker);
+            expect(assetRepository.create).toHaveBeenCalledWith(expect.objectContaining({
+                ticker: input.ticker,
+                name: input.name,
+                type: input.type,
+            }));
         });
 
         it('should throw ConflictException when ticker already exists', async () => {
@@ -83,29 +84,20 @@ describe('CreateAssetUseCase', () => {
                 name: 'Petrobras PN',
                 type: AssetType.STOCK,
             };
-            const existingAsset = {
+            const existingAsset = new AssetEntity({
                 id: 'uuid-456',
                 ticker: input.ticker,
                 name: 'Existing',
-                type: 'STOCK',
-                sector: null,
-                currentPrice: null,
-                dividendYield: null,
-                priceToEarnings: null,
-                priceToBook: null,
-                roe: null,
-                netMargin: null,
-                debtToEquity: null,
-                lastUpdated: null,
+                type: AssetType.STOCK,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-            };
+            });
 
-            prismaService.asset.findUnique.mockResolvedValue(existingAsset);
+            assetRepository.findByTicker.mockResolvedValue(existingAsset);
 
             // Act & Assert
             await expect(useCase.execute(input)).rejects.toThrow(ConflictException);
-            expect(prismaService.asset.create).not.toHaveBeenCalled();
+            expect(assetRepository.create).not.toHaveBeenCalled();
         });
     });
 });

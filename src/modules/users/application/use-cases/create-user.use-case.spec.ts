@@ -1,32 +1,35 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException } from '@nestjs/common';
+import { GoneException } from '@nestjs/common';
 import { CreateUserUseCase } from './create-user.use-case';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { IUserRepository } from '../interfaces/user-repository.interface';
 
 describe('CreateUserUseCase', () => {
     let useCase: CreateUserUseCase;
-    let prismaService: jest.Mocked<PrismaService>;
+    let userRepository: jest.Mocked<IUserRepository>;
 
     beforeEach(async () => {
-        const mockPrismaService = {
-            user: {
-                findUnique: jest.fn(),
-                create: jest.fn(),
-            },
+        const mockUserRepository = {
+            create: jest.fn(),
+            findByEmail: jest.fn(),
+            findById: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+            count: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 CreateUserUseCase,
                 {
-                    provide: PrismaService,
-                    useValue: mockPrismaService,
+                    provide: 'IUserRepository',
+                    useValue: mockUserRepository,
                 },
             ],
         }).compile();
 
         useCase = module.get<CreateUserUseCase>(CreateUserUseCase);
-        prismaService = module.get(PrismaService);
+        userRepository = module.get('IUserRepository');
     });
 
     it('should be defined', () => {
@@ -34,72 +37,9 @@ describe('CreateUserUseCase', () => {
     });
 
     describe('execute', () => {
-        it('should create user successfully when email is unique', async () => {
-            // Arrange
-            const input = { email: 'test@example.com', name: 'Test User' };
-            const createdUser = {
-                id: 'uuid-123',
-                email: input.email,
-                name: input.name,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            };
-
-            prismaService.user.findUnique.mockResolvedValue(null);
-            prismaService.user.create.mockResolvedValue(createdUser);
-
-            // Act
-            const result = await useCase.execute(input);
-
-            // Assert
-            expect(result.email).toBe(input.email);
-            expect(result.name).toBe(input.name);
-            expect(prismaService.user.findUnique).toHaveBeenCalledWith({
-                where: { email: input.email },
-            });
-            expect(prismaService.user.create).toHaveBeenCalledWith({
-                data: { email: input.email, name: input.name },
-            });
-        });
-
-        it('should throw ConflictException when email already exists', async () => {
-            // Arrange
-            const input = { email: 'existing@example.com', name: 'Test' };
-            const existingUser = {
-                id: 'uuid-456',
-                email: input.email,
-                name: 'Existing User',
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            };
-
-            prismaService.user.findUnique.mockResolvedValue(existingUser);
-
-            // Act & Assert
-            await expect(useCase.execute(input)).rejects.toThrow(ConflictException);
-            expect(prismaService.user.create).not.toHaveBeenCalled();
-        });
-
-        it('should create user without name when name is not provided', async () => {
-            // Arrange
-            const input = { email: 'noname@example.com' };
-            const createdUser = {
-                id: 'uuid-789',
-                email: input.email,
-                name: null,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            };
-
-            prismaService.user.findUnique.mockResolvedValue(null);
-            prismaService.user.create.mockResolvedValue(createdUser);
-
-            // Act
-            const result = await useCase.execute(input);
-
-            // Assert
-            expect(result.email).toBe(input.email);
-            expect(result.name).toBeNull();
+        it('should throw GoneException (Deprecated)', async () => {
+            const input = { email: 'any@test.com', name: 'Any', password: '123' };
+            await expect(useCase.execute(input)).rejects.toThrow(GoneException);
         });
     });
 });

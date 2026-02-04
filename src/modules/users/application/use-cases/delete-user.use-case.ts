@@ -1,27 +1,27 @@
-import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { Injectable, NotFoundException, Logger, Inject } from '@nestjs/common';
+import type { IUserRepository } from '../interfaces/user-repository.interface';
 
+// ARCH-001/002: Use case now depends on IUserRepository interface
 @Injectable()
 export class DeleteUserUseCase {
     private readonly logger = new Logger(DeleteUserUseCase.name);
 
-    constructor(private readonly prisma: PrismaService) { }
+    constructor(
+        @Inject('IUserRepository')
+        private readonly userRepository: IUserRepository,
+    ) { }
 
     async execute(id: string): Promise<void> {
         this.logger.log(`Deleting user with ID: ${id}`);
 
         // Verificar se usuário existe
-        const existingUser = await this.prisma.user.findUnique({
-            where: { id },
-        });
+        const existingUser = await this.userRepository.findById(id);
 
         if (!existingUser) {
             throw new NotFoundException('Usuário não encontrado');
         }
 
-        await this.prisma.user.delete({
-            where: { id },
-        });
+        await this.userRepository.delete(id);
 
         this.logger.log(`User deleted: ${id}`);
     }

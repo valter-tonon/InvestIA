@@ -13,6 +13,10 @@ services:
       - DATABASE_URL=postgresql://sardinha:sardinha123@db:5432/investia_db?schema=public
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL}
     volumes:
       - .:/usr/src/app # Sincroniza sua pasta com o container (Hot Reload)
       - /usr/src/app/node_modules # Evita conflito de OS na pasta node_modules
@@ -52,11 +56,16 @@ services:
     container_name: investia-frontend
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000" # Frontend
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     depends_on:
       - app
     networks:

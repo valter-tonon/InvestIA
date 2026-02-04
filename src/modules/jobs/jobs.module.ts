@@ -3,6 +3,7 @@ import { BullModule, InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { DatabaseModule } from '../../infrastructure/database/database.module';
 import { MarketDataModule } from '../market-data/market-data.module';
+import { AssetsModule } from '../assets/assets.module';
 import { SyncAssetsService } from './services/sync-assets.service';
 import { SyncAssetsProcessor } from './processors/sync-assets.processor';
 import { JobsController } from './infrastructure/controllers/jobs.controller';
@@ -11,6 +12,7 @@ import { JobsController } from './infrastructure/controllers/jobs.controller';
     imports: [
         DatabaseModule,
         MarketDataModule,
+        AssetsModule,
         BullModule.registerQueue({
             name: 'sync-assets',
         }),

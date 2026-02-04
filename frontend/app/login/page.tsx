@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { BrainCircuit } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,11 +33,20 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
-            <Card className="w-full max-w-md">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-3xl font-bold tracking-tight">InvestIA</CardTitle>
-                    <CardDescription>Entre com suas credenciais para acessar o dashboard</CardDescription>
+        <div className="flex min-h-screen items-center justify-center bg-[#030712] p-4 relative overflow-hidden">
+            {/* Background Effects */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] opacity-20 pointer-events-none" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] opacity-20 pointer-events-none" />
+
+            <Card className="w-full max-w-md border-white/10 bg-black/50 backdrop-blur-xl shadow-2xl relative z-10">
+                <CardHeader className="space-y-2 text-center">
+                    <div className="flex justify-center mb-2">
+                        <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                            <BrainCircuit className="h-6 w-6 text-primary" />
+                        </div>
+                    </div>
+                    <CardTitle className="text-2xl font-bold tracking-tight font-display">Bem-vindo ao InvestCopilot</CardTitle>
+                    <CardDescription>Sua inteligência para investimentos de alta performance</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -50,10 +60,14 @@ export default function LoginPage() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 disabled={loading}
+                                className="bg-white/5 border-white/10 focus:border-primary/50"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="password">Senha</Label>
+                            <div className="flex items-center justify-between">
+                                <Label htmlFor="password">Senha</Label>
+                                <Link href="#" className="text-xs text-primary hover:text-primary/80">Esqueceu a senha?</Link>
+                            </div>
                             <Input
                                 id="password"
                                 type="password"
@@ -62,17 +76,18 @@ export default function LoginPage() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 disabled={loading}
+                                className="bg-white/5 border-white/10 focus:border-primary/50"
                             />
                         </div>
-                        <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? 'Entrando...' : 'Entrar'}
+                        <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold" disabled={loading}>
+                            {loading ? 'Entrando...' : 'Acessar Plataforma'}
                         </Button>
-                        <p className="text-center text-sm text-muted-foreground">
+                        <div className="text-center text-sm text-muted-foreground mt-4">
                             Não tem uma conta?{' '}
-                            <Link href="/register" className="font-medium text-primary hover:underline">
-                                Registre-se
+                            <Link href="/register" className="font-medium text-primary hover:text-primary/80 transition-colors">
+                                Criar conta gratuita
                             </Link>
-                        </p>
+                        </div>
                     </form>
                 </CardContent>
             </Card>

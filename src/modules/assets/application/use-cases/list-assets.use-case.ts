@@ -1,5 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { Injectable, Logger, Inject } from '@nestjs/common';
+import type { IAssetRepository } from '../interfaces/asset-repository.interface';
 import { AssetOutput } from '../dtos';
 
 export interface ListAssetsOptions {
@@ -7,8 +7,7 @@ export interface ListAssetsOptions {
     perPage?: number;
     type?: string;
     sector?: string;
-    minDY?: number;
-    maxPE?: number;
+    search?: string;
 }
 
 export interface ListAssetsResult {
@@ -21,46 +20,30 @@ export interface ListAssetsResult {
     };
 }
 
+// ARCH-001/002: Use case now depends on IAssetRepository interface
 @Injectable()
 export class ListAssetsUseCase {
     private readonly logger = new Logger(ListAssetsUseCase.name);
 
-    constructor(private readonly prisma: PrismaService) { }
+    constructor(
+        @Inject('IAssetRepository')
+        private readonly assetRepository: IAssetRepository,
+    ) { }
 
     async execute(options: ListAssetsOptions = {}): Promise<ListAssetsResult> {
         const page = options.page ?? 1;
         const perPage = Math.min(options.perPage ?? 20, 100);
-        const skip = (page - 1) * perPage;
 
-        // Construir filtros
-        const where: any = {};
+        const filters: any = {};
+        if (options.type) filters.type = options.type;
+        if (options.sector) filters.sector = options.sector;
+        if (options.search) filters.search = options.search;
 
-        if (options.type) {
-            where.type = options.type;
-        }
-
-        if (options.sector) {
-            where.sector = options.sector;
-        }
-
-        if (options.minDY !== undefined) {
-            where.dividendYield = { gte: options.minDY };
-        }
-
-        if (options.maxPE !== undefined) {
-            where.priceToEarnings = { lte: options.maxPE };
-        }
-
-        this.logger.log(`Listing assets - page: ${page}, filters: ${JSON.stringify(where)}`);
+        this.logger.log(`Listing assets - page: ${page}, filters: ${JSON.stringify(filters)}`);
 
         const [assets, total] = await Promise.all([
-            this.prisma.asset.findMany({
-                where,
-                skip,
-                take: perPage,
-                orderBy: { ticker: 'asc' },
-            }),
-            this.prisma.asset.count({ where }),
+            this.assetRepository.findAll(page, perPage, filters),
+            this.assetRepository.count(filters),
         ]);
 
         return {

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, InternalServerErrorException } from '@nestjs/common';
 import * as fs from 'fs/promises';
 // @ts-ignore
 const pdf = require('pdf-parse');
@@ -17,7 +17,8 @@ export class PdfExtractorService {
             return data.text;
         } catch (error) {
             this.logger.error(`Error extracting text from PDF: ${error.message}`);
-            throw new Error('Failed to extract text from PDF');
+            // ERR-001: Use InternalServerErrorException instead of generic Error
+            throw new InternalServerErrorException('Failed to extract text from PDF');
         }
     }
 

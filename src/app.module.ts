@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { BullModule } from '@nestjs/bullmq';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -13,6 +13,13 @@ import { UsersModule } from './modules/users';
 import { AssetsModule } from './modules/assets';
 import { AuthModule } from './modules/auth';
 import { JobsModule } from './modules/jobs';
+import { DashboardModule } from './modules/dashboard';
+import { AlertsModule } from './modules/alerts/alerts.module';
+import { DividendsModule } from './modules/dividends/dividends.module';
+import { FairPriceModule } from './modules/fair-price/fair-price.module';
+import { CsrfMiddleware } from './common/middleware/csrf.middleware';
+import { RankingModule } from './modules/ranking/ranking.module';
+import { EconomicIndicatorsModule } from './modules/economic-indicators/economic-indicators.module';
 
 @Module({
   imports: [
@@ -42,11 +49,17 @@ import { JobsModule } from './modules/jobs';
     MarketDataModule,
     KnowledgeBaseModule,
     AnalysisEngineModule,
+    AuthModule, // ARCH-002: Import AuthModule before UsersModule to ensure JwtAuthGuard is available
     UsersModule,
     AssetsModule,
-    AuthModule,
     JobsModule,
-    KnowledgeBaseModule,
+    DashboardModule,
+    AlertsModule,
+    DividendsModule,
+    FairPriceModule,
+    FairPriceModule,
+    RankingModule,
+    EconomicIndicatorsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -57,5 +70,19 @@ import { JobsModule } from './modules/jobs';
     },
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  // SEC-007: CSRF middleware disabled for REST API (using JWT authentication)
+  configure(consumer: MiddlewareConsumer) {
+    // CSRF protection not needed for stateless JWT-based APIs
+    // consumer
+    //   .apply(CsrfMiddleware)
+    //   .exclude(
+    //     '/auth/login',      // Login doesn't have token yet
+    //     '/auth/register',   // Register doesn't have token yet
+    //     '/api',             // Exclude Swagger root
+    //     '/api/json',        // Exclude Swagger JSON
+    //   )
+    //   .forRoutes('*');
+  }
+}
 

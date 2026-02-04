@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # --- Backend (NestJS) ---
+  app:
+    container_name: investia-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://sardinha:sardinha123@db:5432/investia_db?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+      # Limit node memory to leave room for other services
+      - NODE_OPTIONS="--max-old-space-size=400"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - investia-net
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # --- Banco de Dados (PostgreSQL) ---
+  db:
+    container_name: investia-db
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: sardinha
+      POSTGRES_PASSWORD: sardinha123
+      POSTGRES_DB: investia_db
+    # Tuning simples para baixo consumo de memória
+    command: postgres -c shared_buffers=128MB -c effective_cache_size=256MB -c maintenance_work_mem=32MB -c work_mem=2MB
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - investia-net
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # --- Fila/Cache (Redis) ---
+  redis:
+    container_name: investia-redis
+    image: redis:alpine
+    restart: always
+    command: redis-server --save 60 1 --loglevel warning
+    networks:
+      - investia-net
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "1"
+
+  # --- Frontend (Next.js) ---
+  frontend:
+    container_name: investia-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:3000" # Expor na porta 80 padrão
+    environment:
+      - NEXT_PUBLIC_API_URL=http://your-oracle-ip:3001 # TODO: Ajustar IP remoto
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+    depends_on:
+      - app
+    networks:
+      - investia-net
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  pgdata:
+
+networks:
+  investia-net:
+    driver: bridge

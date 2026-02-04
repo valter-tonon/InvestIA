@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { AssetType } from '../enums/asset-type.enum';
 
 export interface AssetIndicators {
@@ -41,12 +42,13 @@ export class AssetEntity {
         type: AssetType,
         sector?: string,
     ): AssetEntity {
+        // ERR-001: Use BadRequestException instead of generic Error
         if (!ticker || ticker.length < 4) {
-            throw new Error('Ticker inválido');
+            throw new BadRequestException('Ticker inválido');
         }
 
         if (!name || name.length < 2) {
-            throw new Error('Nome inválido');
+            throw new BadRequestException('Nome inválido');
         }
 
         return new AssetEntity({
@@ -91,5 +93,26 @@ export class AssetEntity {
         }
         this.lastUpdated = new Date();
         this.updatedAt = new Date();
+    }
+
+    // ARCH-001: Factory method to convert Prisma model to domain entity
+    static fromPrisma(prismaAsset: any): AssetEntity {
+        return new AssetEntity({
+            id: prismaAsset.id,
+            ticker: prismaAsset.ticker,
+            name: prismaAsset.name,
+            type: prismaAsset.type as AssetType,
+            sector: prismaAsset.sector,
+            currentPrice: prismaAsset.currentPrice ? Number(prismaAsset.currentPrice) : null,
+            dividendYield: prismaAsset.dividendYield ? Number(prismaAsset.dividendYield) : null,
+            priceToEarnings: prismaAsset.priceToEarnings ? Number(prismaAsset.priceToEarnings) : null,
+            priceToBook: prismaAsset.priceToBook ? Number(prismaAsset.priceToBook) : null,
+            roe: prismaAsset.roe ? Number(prismaAsset.roe) : null,
+            netMargin: prismaAsset.netMargin ? Number(prismaAsset.netMargin) : null,
+            debtToEquity: prismaAsset.debtToEquity ? Number(prismaAsset.debtToEquity) : null,
+            lastUpdated: prismaAsset.lastUpdated,
+            createdAt: prismaAsset.createdAt,
+            updatedAt: prismaAsset.updatedAt,
+        });
     }
 }
