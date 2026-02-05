@@ -15,6 +15,12 @@ if (!process.env.DATABASE_URL_TEST) {
     process.env.DATABASE_URL_TEST = 'postgresql://sardinha:sardinha123@db:5432/investia_test_db?schema=public';
 }
 
+// Ensure JWT_SECRET is set for tests
+if (!process.env.JWT_SECRET) {
+    console.warn('⚠️  JWT_SECRET not set! Using default test secret.');
+    process.env.JWT_SECRET = 'test-secret-key-123';
+}
+
 // Override DATABASE_URL to use test database
 const originalDatabaseUrl = process.env.DATABASE_URL;
 process.env.DATABASE_URL = process.env.DATABASE_URL_TEST;
