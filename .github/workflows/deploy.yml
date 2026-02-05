@@ -14,20 +14,6 @@ on:
       - main
       - develop
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
-
-env:
-  REGISTRY: docker.io
-  IMAGE_NAME_API: investia-api
-  IMAGE_NAME_FRONTEND: investia-frontend
 
 jobs:
   # ========================================================================
@@ -147,134 +133,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
 
-  # ========================================================================
-  # BUILD & PUSH DOCKER IMAGES
-  # ========================================================================
-  build-and-push:
-    name: Build Docker Images
-    runs-on: ubuntu-latest
-    needs: [lint-and-type-check, test, security-scan]
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        if: github.actor != 'dependabot[bot]'
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Extract metadata (API)
-        id: meta-api
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_API }}
-          tags: |
-            type=ref,event=branch
-            type=sha,prefix={{branch}}-
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable={{is_default_branch}}
-
-      - name: Extract metadata (Frontend)
-        id: meta-frontend
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}
-          tags: |
-            type=ref,event=branch
-            type=sha,prefix={{branch}}-
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable={{is_default_branch}}
-
-      - name: Build and push API image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile.prod
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta-api.outputs.tags }}
-          labels: ${{ steps.meta-api.outputs.labels }}
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_API }}:buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_API }}:buildcache,mode=max
-
-      - name: Build and push Frontend image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta-frontend.outputs.tags }}
-          labels: ${{ steps.meta-frontend.outputs.labels }}
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}:buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}:buildcache,mode=max
-
-  # ========================================================================
-  # DEPLOY TO STAGING
-  # ========================================================================
-  deploy-staging:
-    name: Deploy to Staging
-    runs-on: ubuntu-latest
-    needs: build-and-push
-    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-    environment: staging
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.ORACLE_IP }}
-          username: ubuntu
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          port: 22
-          script: |
-            cd /home/ubuntu/investia
-            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-            export DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}
-
-            # Pull latest images
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-            docker pull ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_API }}:develop
-            docker pull ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}:develop
-
-            # Update compose file with image tags
-            sed -i 's|IMAGE_TAG|develop|g' docker-compose.prod.yml
-
-            # Deploy
-            docker-compose -f docker-compose.prod.yml up -d --no-build
-
-            # Wait for services
-            sleep 10
-
-            # Run migrations
-            docker exec investia-api npm run prisma:migrate -- --skip-generate || true
-
-            echo "Staging deployment completed"
-
-      - name: Health check
-        run: |
-          echo "Waiting for services to be ready..."
-          sleep 10
-
-          API_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" "http://${{ secrets.ORACLE_IP }}:3001/api/health" 2>/dev/null)
-          echo "API health check: $API_HEALTH"
-
-          if [ "$API_HEALTH" != "200" ]; then
-            echo "Health check failed"
-            exit 1
-          fi
 
   # ========================================================================
   # DEPLOY TO PRODUCTION
@@ -282,16 +140,11 @@ jobs:
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: build-and-push
-    if: |
-      (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    needs: [lint-and-type-check, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Create backup
         uses: appleboy/ssh-action@master
         with:
@@ -319,43 +172,45 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
             cd /home/ubuntu/investia
-            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-            export DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}
 
-            # Pull latest images
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-            docker pull ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_API }}:latest
-            docker pull ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}:latest
+            echo "==> Pulling latest code..."
+            git pull origin main
 
-            # Update compose file
-            sed -i 's|IMAGE_TAG|latest|g' docker-compose.prod.yml
+            echo "==> Building and deploying containers..."
+            docker-compose -f docker-compose.prod.yml up -d --build
 
-            # Deploy with blue-green strategy
-            docker-compose -f docker-compose.prod.yml up -d --no-build
+            echo "==> Waiting for services to start..."
+            sleep 20
 
-            # Wait for services
-            sleep 15
+            echo "==> Running database migrations..."
+            docker exec investia-api npx prisma migrate deploy || true
 
-            # Run migrations
-            docker exec investia-api npm run prisma:migrate -- --skip-generate || true
+            echo "==> Cleaning up old images..."
+            docker image prune -f
 
-            echo "Production deployment completed"
+            echo "==> Deployment completed!"
 
       - name: Health check
         run: |
           echo "Verifying production deployment..."
           sleep 10
 
-          API_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" "http://${{ secrets.ORACLE_IP }}:3001/api/health" 2>/dev/null)
-          echo "API health check: $API_HEALTH"
+          # Check via HTTPS
+          HTTPS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://chat.criativeweb.net.br/api/health" 2>/dev/null || echo "000")
+          echo "HTTPS health check: $HTTPS_STATUS"
 
-          FRONTEND_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" "http://${{ secrets.ORACLE_IP }}" 2>/dev/null)
-          echo "Frontend health check: $FRONTEND_HEALTH"
+          if [ "$HTTPS_STATUS" != "200" ]; then
+            # Fallback: check via HTTP
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://${{ secrets.ORACLE_IP }}/api/health" 2>/dev/null || echo "000")
+            echo "HTTP health check: $HTTP_STATUS"
 
-          if [ "$API_HEALTH" != "200" ] || [ "$FRONTEND_HEALTH" != "200" ]; then
-            echo "Health check failed - initiating rollback"
-            exit 1
+            if [ "$HTTP_STATUS" != "200" ]; then
+              echo "Health check failed!"
+              exit 1
+            fi
           fi
+
+          echo "Deployment successful!"
 
       - name: Deployment summary
         if: always()
@@ -366,6 +221,5 @@ jobs:
           echo "Branch: ${{ github.ref }}"
           echo "Commit: ${{ github.sha }}"
           echo "Status: ${{ job.status }}"
-          echo "URL: http://${{ secrets.ORACLE_IP }}"
-          echo "API: http://${{ secrets.ORACLE_IP }}:3001"
+          echo "URL: https://chat.criativeweb.net.br"
           echo "=========================================="
