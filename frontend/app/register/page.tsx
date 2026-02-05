@@ -47,7 +47,7 @@ export default function RegisterPage() {
                             <BrainCircuit className="h-6 w-6 text-primary" />
                         </div>
                     </div>
-                    <CardTitle className="text-2xl font-bold tracking-tight font-display">Crie sua Conta</CardTitle>
+                    <CardTitle className="text-2xl font-bold tracking-tight font-display">Bem-vindo ao InvestCopilot</CardTitle>
                     <CardDescription>Comece sua jornada rumo à liberdade financeira</CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -29,8 +29,8 @@ export const TopAssetsChart: React.FC<TopAssetsChartProps> = ({ data }) => {
                                 width={80}
                             />
                             <Tooltip
-                                formatter={(value: number | undefined) => [
-                                    `R$ ${value?.toFixed(2) ?? '0.00'}`,
+                                formatter={(value) => [
+                                    `R$ ${typeof value === 'number' ? value.toFixed(2) : '0.00'}`,
                                     'Valor',
                                 ]}
                             />

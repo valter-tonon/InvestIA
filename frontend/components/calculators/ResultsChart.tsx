@@ -42,7 +42,7 @@ export default function ResultsChart({ data }: ResultsChartProps) {
                     />
                     <Tooltip
                         contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }}
-                        formatter={(value: number) => formatCurrency(value)}
+                        formatter={(value) => typeof value === 'number' ? formatCurrency(value) : value}
                         labelFormatter={(label) => `Ano ${label}`}
                     />
                     <Legend />

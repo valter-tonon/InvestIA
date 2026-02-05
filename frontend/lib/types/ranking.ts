@@ -1,4 +1,9 @@
-import type { RankingStrategy } from './ranking';
+export enum RankingStrategy {
+    GRAHAM = 'GRAHAM',
+    BAZIN = 'BAZIN',
+    BARSI = 'BARSI',
+    COMPOSITE = 'COMPOSITE',
+}
 
 export interface RankedAsset {
     id: string;
@@ -13,5 +18,3 @@ export interface RankedAsset {
     };
     rank: number;
 }
-
-export { RankingStrategy };

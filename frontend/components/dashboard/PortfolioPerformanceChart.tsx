@@ -34,8 +34,8 @@ export const PortfolioPerformanceChart: React.FC<PortfolioPerformanceChartProps>
                                 tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
                             />
                             <Tooltip
-                                formatter={(value: number | undefined) => [
-                                    `R$ ${value?.toFixed(2) ?? '0.00'}`,
+                                formatter={(value) => [
+                                    `R$ ${typeof value === 'number' ? value.toFixed(2) : '0.00'}`,
                                     'Valor',
                                 ]}
                                 labelFormatter={(label) => {

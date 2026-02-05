@@ -67,7 +67,7 @@ export default function UploadPhilosophyPage() {
             <header className="border-b bg-white dark:bg-slate-800">
                 <div className="container mx-auto flex h-16 items-center justify-between px-4">
                     <h1 className="text-2xl font-bold cursor-pointer" onClick={() => router.push('/dashboard')}>
-                        InvestIA
+                        InvestCopilot
                     </h1>
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-muted-foreground">{user.name}</span>

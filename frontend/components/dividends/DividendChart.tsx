@@ -48,7 +48,7 @@ export default function DividendChart({ dividends }: DividendChartProps) {
                     <XAxis dataKey="year" />
                     <YAxis />
                     <Tooltip
-                        formatter={(value: number) => `R$ ${value.toFixed(2)}`}
+                        formatter={(value) => `R$ ${typeof value === 'number' ? value.toFixed(2) : '0.00'}`}
                         labelFormatter={(label) => `Ano: ${label}`}
                     />
                     <Legend />

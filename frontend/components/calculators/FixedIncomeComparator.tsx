@@ -64,8 +64,8 @@ export default function FixedIncomeComparator() {
         const fetch = async () => {
             try {
                 const data = await indicatorsApi.getIndicators();
-                if (data.cdi) setCdi(data.cdi);
-                if (data.ipca) setIpca(data.ipca);
+                if (data.CDI) setCdi(data.CDI);
+                if (data.IPCA) setIpca(data.IPCA);
             } finally {
                 setLoading(false);
             }
