@@ -6,6 +6,8 @@ import { PrismaService } from '../src/infrastructure/database/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { TestHelper } from './utils/test-helper';
 import * as path from 'path';
+import { OpenAiProvider } from '../src/modules/knowledge-base/services/providers/openai.provider';
+import { GeminiProvider } from '../src/modules/knowledge-base/services/providers/gemini.provider';
 
 describe('PhilosophiesController (e2e)', () => {
     let app: INestApplication;
@@ -13,9 +15,34 @@ describe('PhilosophiesController (e2e)', () => {
     let authToken: string;
 
     beforeAll(async () => {
+        const mockLlmProvider = {
+            extractRules: jest.fn().mockResolvedValue({
+                rules: [
+                    {
+                        type: 'quantitative',
+                        category: 'valuation',
+                        indicator: 'P/L',
+                        operator: '<',
+                        value: 15,
+                        unit: 'x',
+                        description: 'Mocked Rule',
+                        confidence: 0.9,
+                    },
+                ],
+                tokensUsed: 100,
+                model: 'mock-model',
+            }),
+            getName: () => 'MockLLM',
+        };
+
         const moduleFixture: TestingModule = await Test.createTestingModule({
             imports: [AppModule],
-        }).compile();
+        })
+            .overrideProvider(OpenAiProvider)
+            .useValue(mockLlmProvider)
+            .overrideProvider(GeminiProvider)
+            .useValue(mockLlmProvider)
+            .compile();
 
         app = moduleFixture.createNestApplication();
         await app.init();
