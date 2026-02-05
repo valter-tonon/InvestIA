@@ -201,6 +201,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./Dockerfile.prod
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta-api.outputs.tags }}
           labels: ${{ steps.meta-api.outputs.labels }}
@@ -356,40 +357,15 @@ jobs:
             exit 1
           fi
 
-      - name: Slack notification (success)
-        if: success()
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          payload: |
-            {
-              "text": "✅ InvestIA Production Deployment Successful",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Production Deployment Successful* 🚀\n*Branch:* ${{ github.ref }}\n*Commit:* ${{ github.sha }}\n*URL:* http://${{ secrets.ORACLE_IP }}"
-                  }
-                }
-              ]
-            }
-
-      - name: Slack notification (failure)
-        if: failure()
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          payload: |
-            {
-              "text": "❌ InvestIA Production Deployment Failed",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Production Deployment Failed* ❌\n*Branch:* ${{ github.ref }}\n*Commit:* ${{ github.sha }}\n*Action:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                  }
-                }
-              ]
-            }
+      - name: Deployment summary
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "DEPLOYMENT SUMMARY"
+          echo "=========================================="
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Status: ${{ job.status }}"
+          echo "URL: http://${{ secrets.ORACLE_IP }}"
+          echo "API: http://${{ secrets.ORACLE_IP }}:3001"
+          echo "=========================================="

@@ -93,7 +93,7 @@ fi
 print_header "PHASE 2: Building Docker Images"
 
 print_info "Building backend image..."
-docker build -t investia-api:$VERSION .
+docker build -f Dockerfile.prod -t investia-api:$VERSION .
 print_success "Backend image built"
 
 print_info "Building frontend image..."
