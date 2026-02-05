@@ -16,7 +16,7 @@ export class PrismaAssetRepository implements IAssetRepository {
         const asset = await this.prisma.asset.findFirst({
             where: {
                 id,
-                deletedAt: null, // DB-004: Filter soft deleted
+                deleted_at: null, // DB-004: Filter soft deleted
             },
         });
 
@@ -27,7 +27,7 @@ export class PrismaAssetRepository implements IAssetRepository {
         const asset = await this.prisma.asset.findFirst({
             where: {
                 ticker: ticker.toUpperCase(),
-                deletedAt: null, // DB-004: Filter soft deleted
+                deleted_at: null, // DB-004: Filter soft deleted
             },
         });
 
@@ -38,7 +38,7 @@ export class PrismaAssetRepository implements IAssetRepository {
         const skip = (page - 1) * limit;
 
         const where: any = {
-            deletedAt: null, // DB-004: Filter soft deleted
+            deleted_at: null, // DB-004: Filter soft deleted
         };
         if (filters?.type) {
             where.type = filters.type;
@@ -67,7 +67,7 @@ export class PrismaAssetRepository implements IAssetRepository {
         const assets = await this.prisma.asset.findMany({
             where: {
                 type,
-                deletedAt: null, // DB-004: Filter soft deleted
+                deleted_at: null, // DB-004: Filter soft deleted
             },
             orderBy: { ticker: 'asc' },
         });
@@ -79,7 +79,7 @@ export class PrismaAssetRepository implements IAssetRepository {
         const assets = await this.prisma.asset.findMany({
             where: {
                 sector,
-                deletedAt: null, // DB-004: Filter soft deleted
+                deleted_at: null, // DB-004: Filter soft deleted
             },
             orderBy: { ticker: 'asc' },
         });
@@ -138,14 +138,14 @@ export class PrismaAssetRepository implements IAssetRepository {
         await this.prisma.asset.update({
             where: { id },
             data: {
-                deletedAt: new Date(),
+                deleted_at: new Date(),
             },
         });
     }
 
     async count(filters?: AssetFilters): Promise<number> {
         const where: any = {
-            deletedAt: null, // DB-004: Count only active assets
+            deleted_at: null, // DB-004: Count only active assets
         };
         if (filters?.type) {
             where.type = filters.type;

@@ -47,7 +47,7 @@ export class UploadPhilosophyUseCase {
                     filePath: file.path,
                     extractedText,
                     rules,
-                    structuredRules: structuredRules ? JSON.parse(JSON.stringify(structuredRules)) : undefined,
+                    structured_rules: structuredRules ? JSON.parse(JSON.stringify(structuredRules)) : undefined,
                     userId,
                 },
             });

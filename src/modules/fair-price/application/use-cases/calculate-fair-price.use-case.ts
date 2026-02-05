@@ -61,7 +61,7 @@ export class CalculateFairPriceUseCase {
         // Calculate Yield on Cost
         const yieldOnCost = this.calculateYieldOnCost(
             asset.dividends,
-            asset.averagePurchasePrice ? Number(asset.averagePurchasePrice) : null,
+            asset.average_purchase_price ? Number(asset.average_purchase_price) : null,
             currentYear,
         );
 
@@ -84,8 +84,8 @@ export class CalculateFairPriceUseCase {
             lowestPrice,
             highestPrice,
             yieldOnCost,
-            averagePurchasePrice: asset.averagePurchasePrice
-                ? Number(asset.averagePurchasePrice)
+            averagePurchasePrice: asset.average_purchase_price
+                ? Number(asset.average_purchase_price)
                 : null,
         };
     }
