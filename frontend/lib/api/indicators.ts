@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { api } from './client';
 
 export interface Indicators {
   cdi: number;
@@ -9,7 +9,7 @@ export interface Indicators {
 export const indicatorsApi = {
   getIndicators: async (): Promise<Indicators> => {
     try {
-      const response = await apiClient.get<Indicators>('/indicators');
+      const response = await api.get<Indicators>('/indicators');
       return response.data;
     } catch {
       // Fallback values if API is unavailable
