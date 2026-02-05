@@ -124,15 +124,14 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd /home/ubuntu/investia
+            REPO_DIR="/home/ubuntu/investia"
+            mkdir -p "$REPO_DIR/backups"
 
             BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
-            BACKUP_FILE="backups/investia_db_${BACKUP_DATE}.sql"
-
-            mkdir -p backups
+            BACKUP_FILE="$REPO_DIR/backups/investia_db_${BACKUP_DATE}.sql"
 
             echo "Creating database backup..."
-            docker exec investia-db pg_dump -U sardinha investia_db > "$BACKUP_FILE" 2>/dev/null || echo "Backup skipped (first deployment)"
+            docker exec investia-db pg_dump -U sardinha investia_db > "$BACKUP_FILE" 2>/dev/null || echo "Backup skipped (first deployment or no DB container)"
 
             echo "Backup created: $BACKUP_FILE"
 
@@ -143,13 +142,26 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd /home/ubuntu/investia
+            set -e
+
+            REPO_DIR="/home/ubuntu/investia"
+            REPO_URL="https://github.com/${{ github.repository }}.git"
+
+            # Clone if not a git repo, otherwise pull
+            if [ ! -d "$REPO_DIR/.git" ]; then
+              echo "==> First deployment: cloning repository..."
+              rm -rf "$REPO_DIR"
+              git clone "$REPO_URL" "$REPO_DIR"
+            fi
+
+            cd "$REPO_DIR"
 
             echo "==> Pulling latest code..."
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             echo "==> Building and deploying containers..."
-            docker-compose -f docker-compose.prod.yml up -d --build
+            docker compose -f docker-compose.prod.yml up -d --build
 
             echo "==> Waiting for services to start..."
             sleep 20
