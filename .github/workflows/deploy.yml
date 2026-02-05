@@ -63,8 +63,7 @@ jobs:
       - name: Setup test database
         env:
           DATABASE_URL: postgresql://sardinha:sardinha123@localhost:5432/investia_db?schema=public
-        run: |
-          npm run prisma:migrate -- --skip-generate
+        run: npx prisma migrate deploy
 
       - name: Run unit tests
         run: npm run test -- --coverage --watchAll=false
