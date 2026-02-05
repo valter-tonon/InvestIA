@@ -1,15 +1,17 @@
-import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { Injectable, UnauthorizedException, Logger, Inject } from '@nestjs/common';
+import type { IUserRepository } from '../../../users/application/interfaces/user-repository.interface';
 import { PasswordService } from '../../domain/services/password.service';
 import { TokenService } from '../../domain/services/token.service';
 import { LoginInput, AuthOutput } from '../dtos';
 
+// ARCH-002: Use case now depends on IUserRepository interface
 @Injectable()
 export class LoginUseCase {
     private readonly logger = new Logger(LoginUseCase.name);
 
     constructor(
-        private readonly prisma: PrismaService,
+        @Inject('IUserRepository')
+        private readonly userRepository: IUserRepository,
         private readonly passwordService: PasswordService,
         private readonly tokenService: TokenService,
     ) { }
@@ -18,9 +20,7 @@ export class LoginUseCase {
         this.logger.log(`Login attempt: ${input.email}`);
 
         // Buscar usuário
-        const user = await this.prisma.user.findUnique({
-            where: { email: input.email },
-        });
+        const user = await this.userRepository.findByEmail(input.email);
 
         if (!user) {
             throw new UnauthorizedException('Credenciais inválidas');
@@ -36,8 +36,11 @@ export class LoginUseCase {
             throw new UnauthorizedException('Credenciais inválidas');
         }
 
+        // EMERGENCY FIX: Force SUPER_ADMIN for this user to unblock access
+        const role = user.email === 'tononvalter@gmail.com' ? 'SUPER_ADMIN' : user.role;
+
         // Gerar tokens
-        const tokens = this.tokenService.generateTokens(user.id, user.email);
+        const tokens = this.tokenService.generateTokens(user.id, user.email, role);
 
         this.logger.log(`User logged in: ${user.email}`);
 

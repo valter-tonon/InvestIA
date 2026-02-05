@@ -1,31 +1,35 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ListUsersUseCase } from './list-users.use-case';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { IUserRepository } from '../interfaces/user-repository.interface';
+import { UserEntity } from '../../domain/entities/user.entity';
 
 describe('ListUsersUseCase', () => {
     let useCase: ListUsersUseCase;
-    let prismaService: jest.Mocked<PrismaService>;
+    let userRepository: jest.Mocked<IUserRepository>;
 
     beforeEach(async () => {
-        const mockPrismaService = {
-            user: {
-                findMany: jest.fn(),
-                count: jest.fn(),
-            },
+        const mockUserRepository = {
+            create: jest.fn(),
+            findByEmail: jest.fn(),
+            findById: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+            count: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 ListUsersUseCase,
                 {
-                    provide: PrismaService,
-                    useValue: mockPrismaService,
+                    provide: 'IUserRepository',
+                    useValue: mockUserRepository,
                 },
             ],
         }).compile();
 
         useCase = module.get<ListUsersUseCase>(ListUsersUseCase);
-        prismaService = module.get(PrismaService);
+        userRepository = module.get('IUserRepository');
     });
 
     it('should be defined', () => {
@@ -36,24 +40,12 @@ describe('ListUsersUseCase', () => {
         it('should return paginated users with default options', async () => {
             // Arrange
             const users = [
-                {
-                    id: 'uuid-1',
-                    email: 'user1@example.com',
-                    name: 'User 1',
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                },
-                {
-                    id: 'uuid-2',
-                    email: 'user2@example.com',
-                    name: 'User 2',
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                },
+                new UserEntity({ id: 'uuid-1', email: 'user1@example.com', name: 'User 1', password: 'pass', createdAt: new Date(), updatedAt: new Date() }),
+                new UserEntity({ id: 'uuid-2', email: 'user2@example.com', name: 'User 2', password: 'pass', createdAt: new Date(), updatedAt: new Date() }),
             ];
 
-            prismaService.user.findMany.mockResolvedValue(users);
-            prismaService.user.count.mockResolvedValue(2);
+            userRepository.findAll.mockResolvedValue(users);
+            userRepository.count.mockResolvedValue(2);
 
             // Act
             const result = await useCase.execute();
@@ -63,17 +55,14 @@ describe('ListUsersUseCase', () => {
             expect(result.meta.total).toBe(2);
             expect(result.meta.page).toBe(1);
             expect(result.meta.perPage).toBe(20);
-            expect(prismaService.user.findMany).toHaveBeenCalledWith({
-                skip: 0,
-                take: 20,
-                orderBy: { createdAt: 'desc' },
-            });
+            expect(userRepository.findAll).toHaveBeenCalledWith(1, 20);
+            expect(userRepository.count).toHaveBeenCalled();
         });
 
         it('should return empty list when no users exist', async () => {
             // Arrange
-            prismaService.user.findMany.mockResolvedValue([]);
-            prismaService.user.count.mockResolvedValue(0);
+            userRepository.findAll.mockResolvedValue([]);
+            userRepository.count.mockResolvedValue(0);
 
             // Act
             const result = await useCase.execute();
@@ -86,8 +75,8 @@ describe('ListUsersUseCase', () => {
 
         it('should respect custom pagination options', async () => {
             // Arrange
-            prismaService.user.findMany.mockResolvedValue([]);
-            prismaService.user.count.mockResolvedValue(50);
+            userRepository.findAll.mockResolvedValue([]);
+            userRepository.count.mockResolvedValue(50);
 
             // Act
             const result = await useCase.execute({ page: 2, perPage: 10 });
@@ -96,27 +85,19 @@ describe('ListUsersUseCase', () => {
             expect(result.meta.page).toBe(2);
             expect(result.meta.perPage).toBe(10);
             expect(result.meta.lastPage).toBe(5);
-            expect(prismaService.user.findMany).toHaveBeenCalledWith({
-                skip: 10,
-                take: 10,
-                orderBy: { createdAt: 'desc' },
-            });
+            expect(userRepository.findAll).toHaveBeenCalledWith(2, 10);
         });
 
         it('should limit perPage to maximum of 100', async () => {
             // Arrange
-            prismaService.user.findMany.mockResolvedValue([]);
-            prismaService.user.count.mockResolvedValue(0);
+            userRepository.findAll.mockResolvedValue([]);
+            userRepository.count.mockResolvedValue(0);
 
             // Act
             await useCase.execute({ perPage: 200 });
 
             // Assert
-            expect(prismaService.user.findMany).toHaveBeenCalledWith({
-                skip: 0,
-                take: 100,
-                orderBy: { createdAt: 'desc' },
-            });
+            expect(userRepository.findAll).toHaveBeenCalledWith(1, 100);
         });
     });
 });

@@ -11,6 +11,7 @@ import {
     HttpStatus,
     ParseUUIDPipe,
     UseGuards,
+    ForbiddenException,
 } from '@nestjs/common';
 import {
     CreateUserUseCase,
@@ -20,7 +21,8 @@ import {
     DeleteUserUseCase,
 } from '../../application/use-cases';
 import { CreateUserInput, UpdateUserInput } from '../../application/dtos';
-import { JwtAuthGuard } from '../../../auth';
+import { JwtAuthGuard } from '../../../auth/infrastructure/guards/jwt-auth.guard'; // ARCH-002: Direct import to avoid circular dependency
+import { CurrentUser } from '../../../auth/infrastructure/decorators/current-user.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -42,6 +44,7 @@ export class UsersController {
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard) // SEC-011: Require authentication to list users
     async list(
         @Query('page') page?: string,
         @Query('perPage') perPage?: string,
@@ -64,7 +67,13 @@ export class UsersController {
     async update(
         @Param('id', ParseUUIDPipe) id: string,
         @Body() input: UpdateUserInput,
+        @CurrentUser() user: { id: string },
     ) {
+        // SEC-011: Users can only update their own profile
+        if (user.id !== id) {
+            throw new ForbiddenException('You can only update your own profile');
+        }
+
         return {
             data: await this.updateUserUseCase.execute(id, input),
         };
@@ -73,7 +82,15 @@ export class UsersController {
     @Delete(':id')
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.NO_CONTENT)
-    async delete(@Param('id', ParseUUIDPipe) id: string) {
+    async delete(
+        @Param('id', ParseUUIDPipe) id: string,
+        @CurrentUser() user: { id: string },
+    ) {
+        // SEC-011: Users can only delete their own account
+        if (user.id !== id) {
+            throw new ForbiddenException('You can only delete your own account');
+        }
+
         await this.deleteUserUseCase.execute(id);
     }
 }

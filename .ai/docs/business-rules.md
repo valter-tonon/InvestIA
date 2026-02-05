@@ -31,19 +31,22 @@ Agrupa ativos do usuário:
 
 ## Regras de Negócio
 
-### RN-001: Formato de Regras
-Regras são objetos JSON com estrutura:
+### RN-001: Formato de Regras (Schema)
+Regras extraídas via IA seguem um schema estrito (ver [rules_engine.md](./rules_engine.md) para detalhes completos):
 ```json
 {
-  "indicator": "dy",
-  "operator": ">",
-  "value": 0.06,
-  "weight": 1
+  "category": "valuation",
+  "indicator": "P/L",
+  "operator": "<",
+  "value": 10,
+  "unit": "x",
+  "confidence": 0.95
 }
 ```
+**Categorias**: `valuation`, `profitability`, `debt`, `dividend`, `growth`, `quality`, `check`.
 
-**Indicadores válidos**: `dy`, `pe`, `pb`, `roe`, `netMargin`, `debtToEquity`  
-**Operadores válidos**: `>`, `<`, `>=`, `<=`, `==`, `!=`
+### RN-001.1: Setores Padronizados (B3)
+Ativos devem pertencer a um dos setores: `Financeiro`, `Tecnologia`, `Saúde`, `Indústria`, `Consumo Cíclico`, `Consumo Não Cíclico`, `Materiais Básicos`, `Petróleo, Gás e Biocombustíveis`, `Utilidade Pública`, `Imobiliário`, `Comunicações`, `Outros`.
 
 ### RN-002: Score de Ativo
 - Cada regra tem peso (weight)

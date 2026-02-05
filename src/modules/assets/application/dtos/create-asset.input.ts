@@ -1,5 +1,6 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 import { AssetType } from '../../domain/enums/asset-type.enum';
+import { AssetSector } from '../../domain/enums/asset-sector.enum';
 import { Transform } from 'class-transformer';
 
 export class CreateAssetInput {
@@ -18,6 +19,6 @@ export class CreateAssetInput {
     type: AssetType;
 
     @IsOptional()
-    @IsString()
-    sector?: string;
+    @IsEnum(AssetSector, { message: 'Setor inválido' })
+    sector?: AssetSector;
 }

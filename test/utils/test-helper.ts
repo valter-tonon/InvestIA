@@ -12,6 +12,7 @@ export class TestHelper {
 
     async cleanDatabase() {
         // Ordem importa devido a chaves estrangeiras
+        await this.prisma.priceAlert.deleteMany();
         await this.prisma.philosophy.deleteMany();
         await this.prisma.asset.deleteMany();
         await this.prisma.user.deleteMany();
@@ -30,6 +31,9 @@ export class TestHelper {
     }
 
     generateToken(userId: string) {
-        return this.jwtService.sign({ sub: userId, email: 'test@example.com' });
+        return this.jwtService.sign(
+            { sub: userId, email: 'test@example.com' },
+            { expiresIn: '7d' }
+        );
     }
 }

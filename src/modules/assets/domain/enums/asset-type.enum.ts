@@ -3,4 +3,5 @@ export enum AssetType {
     REIT = 'REIT',     // Fundo Imobiliário
     ETF = 'ETF',       // ETF
     BDR = 'BDR',       // BDR
+    CRYPTO = 'CRYPTO',
 }

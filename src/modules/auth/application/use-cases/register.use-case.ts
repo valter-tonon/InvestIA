@@ -1,15 +1,17 @@
-import { Injectable, ConflictException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { Injectable, ConflictException, Logger, Inject } from '@nestjs/common';
+import type { IUserRepository } from '../../../users/application/interfaces/user-repository.interface';
 import { PasswordService } from '../../domain/services/password.service';
 import { TokenService } from '../../domain/services/token.service';
 import { RegisterInput, AuthOutput } from '../dtos';
 
+// ARCH-002: Use case now depends on IUserRepository interface
 @Injectable()
 export class RegisterUseCase {
     private readonly logger = new Logger(RegisterUseCase.name);
 
     constructor(
-        private readonly prisma: PrismaService,
+        @Inject('IUserRepository')
+        private readonly userRepository: IUserRepository,
         private readonly passwordService: PasswordService,
         private readonly tokenService: TokenService,
     ) { }
@@ -18,9 +20,7 @@ export class RegisterUseCase {
         this.logger.log(`Registering user: ${input.email}`);
 
         // Verificar se email já existe
-        const existingUser = await this.prisma.user.findUnique({
-            where: { email: input.email },
-        });
+        const existingUser = await this.userRepository.findByEmail(input.email);
 
         if (existingUser) {
             throw new ConflictException('Email já está cadastrado');
@@ -30,12 +30,10 @@ export class RegisterUseCase {
         const hashedPassword = await this.passwordService.hash(input.password);
 
         // Criar usuário
-        const user = await this.prisma.user.create({
-            data: {
-                email: input.email,
-                password: hashedPassword,
-                name: input.name,
-            },
+        const user = await this.userRepository.create({
+            email: input.email,
+            password: hashedPassword,
+            name: input.name,
         });
 
         // Gerar tokens

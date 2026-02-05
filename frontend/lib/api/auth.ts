@@ -11,14 +11,15 @@ export interface RegisterInput {
     password: string;
 }
 
+// SEC-005: Updated response - tokens returned for backward compatibility
 export interface AuthResponse {
-    access_token: string;
-    refresh_token: string;
     user: {
         id: string;
         email: string;
         name: string;
     };
+    accessToken: string;
+    refreshToken: string;
 }
 
 export const authApi = {
@@ -35,5 +36,10 @@ export const authApi = {
     me: async () => {
         const response = await api.get('/auth/me');
         return response.data.data;
+    },
+
+    // SEC-005: Logout endpoint to clear cookies
+    logout: async (): Promise<void> => {
+        await api.post('/auth/logout');
     },
 };

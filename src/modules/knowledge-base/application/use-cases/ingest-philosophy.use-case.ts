@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../../../infrastructure/database';
 import { StrategyRule, validateRules } from '../../domain/entities/strategy-profile.entity';
 
@@ -35,7 +35,8 @@ export class IngestPhilosophyUseCase {
         // Valida as regras
         const validation = validateRules(input.rawRules);
         if (!validation.valid) {
-            throw new Error(`Regras inválidas: ${validation.errors.join('; ')}`);
+            // ERR-001: Use BadRequestException instead of generic Error
+            throw new BadRequestException(`Regras inválidas: ${validation.errors.join('; ')}`);
         }
 
         // Normaliza os indicadores para o formato padrão

@@ -13,7 +13,8 @@ export class RefreshTokenUseCase {
 
         try {
             // Validar refresh token
-            const payload = await this.tokenService.verifyToken(input.refreshToken);
+            // SEC-017: Verify refresh token with appropriate secret
+            const payload = await this.tokenService.verifyToken(input.refreshToken, true);
 
             // Gerar novo access token
             const tokens = this.tokenService.generateTokens(payload.sub, payload.email);

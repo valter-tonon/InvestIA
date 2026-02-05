@@ -1,31 +1,36 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { FindUserUseCase } from './find-user.use-case';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { IUserRepository } from '../interfaces/user-repository.interface';
+import { UserEntity } from '../../domain/entities/user.entity';
 
 describe('FindUserUseCase', () => {
     let useCase: FindUserUseCase;
-    let prismaService: jest.Mocked<PrismaService>;
+    let userRepository: jest.Mocked<IUserRepository>;
 
     beforeEach(async () => {
-        const mockPrismaService = {
-            user: {
-                findUnique: jest.fn(),
-            },
+        const mockUserRepository = {
+            create: jest.fn(),
+            findByEmail: jest.fn(),
+            findById: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+            count: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 FindUserUseCase,
                 {
-                    provide: PrismaService,
-                    useValue: mockPrismaService,
+                    provide: 'IUserRepository',
+                    useValue: mockUserRepository,
                 },
             ],
         }).compile();
 
         useCase = module.get<FindUserUseCase>(FindUserUseCase);
-        prismaService = module.get(PrismaService);
+        userRepository = module.get('IUserRepository');
     });
 
     it('should be defined', () => {
@@ -36,34 +41,34 @@ describe('FindUserUseCase', () => {
         it('should return user when found', async () => {
             // Arrange
             const userId = 'uuid-123';
-            const user = {
+            const userEntity = new UserEntity({
                 id: userId,
                 email: 'test@example.com',
                 name: 'Test User',
+                password: 'password',
                 createdAt: new Date(),
-                updatedAt: new Date(),
-            };
+                updatedAt: new Date()
+            });
 
-            prismaService.user.findUnique.mockResolvedValue(user);
+            userRepository.findById.mockResolvedValue(userEntity);
 
             // Act
             const result = await useCase.execute(userId);
 
             // Assert
             expect(result.id).toBe(userId);
-            expect(result.email).toBe(user.email);
-            expect(prismaService.user.findUnique).toHaveBeenCalledWith({
-                where: { id: userId },
-            });
+            expect(result.email).toBe(userEntity.email);
+            expect(userRepository.findById).toHaveBeenCalledWith(userId);
         });
 
         it('should throw NotFoundException when user not found', async () => {
             // Arrange
             const userId = 'non-existent-id';
-            prismaService.user.findUnique.mockResolvedValue(null);
+            userRepository.findById.mockResolvedValue(null);
 
             // Act & Assert
             await expect(useCase.execute(userId)).rejects.toThrow(NotFoundException);
+            expect(userRepository.findById).toHaveBeenCalledWith(userId);
         });
     });
 });

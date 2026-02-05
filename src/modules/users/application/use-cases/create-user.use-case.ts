@@ -1,30 +1,22 @@
-import { Injectable, ConflictException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../../../infrastructure/database/prisma.service';
+import { Injectable, GoneException, Logger, Inject } from '@nestjs/common';
+import type { IUserRepository } from '../interfaces/user-repository.interface';
 import { CreateUserInput, UserOutput } from '../dtos';
 
+// ARCH-001/002: Use case now depends on IUserRepository interface
 @Injectable()
 export class CreateUserUseCase {
-    private readonly logger = new Logger(CreateUserUseCase.name);
+  private readonly logger = new Logger(CreateUserUseCase.name);
 
-    constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    @Inject('IUserRepository')
+    private readonly userRepository: IUserRepository,
+  ) { }
 
-    async execute(input: CreateUserInput): Promise<UserOutput> {
-        this.logger.log(`Creating user with email: ${input.email}`);
+  async execute(input: CreateUserInput): Promise<UserOutput> {
+    this.logger.log(`Creating user with email: ${input.email}`);
 
-        // DEPRECATED: Use RegisterUseCase do módulo Auth
-        // Este endpoint foi substituído por /auth/register
-        throw new Error('Use /auth/register para criar usuários');
-
-        /*
-        const asset = await this.prisma.user.create({
-          data: {
-            email: input.email,
-            name: input.name,
-          },
-        });
-    
-        this.logger.log(`User created: ${user.email} (${user.id})`);
-        return UserOutput.fromEntity(user);
-        */
-    }
+    // DEPRECATED: Use RegisterUseCase do módulo Auth
+    // Este endpoint foi substituído por /auth/register
+    throw new GoneException('Use /auth/register para criar usuários');
+  }
 }

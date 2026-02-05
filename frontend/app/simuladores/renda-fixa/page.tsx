@@ -7,7 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function FixedIncomePage() {
     return (
-        <div className="container mx-auto px-4 py-8 space-y-8">
+        <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-8">
             <div className="flex items-center gap-4">
                 <Link href="/simuladores">
                     <Button variant="ghost" size="icon">

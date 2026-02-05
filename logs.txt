@@ -1,0 +1,266 @@
+investia-api  | 
+investia-api  | > app@0.0.1 start:dev
+investia-api  | > nest start --watch --path tsconfig.build.json
+investia-api  | 
+investia-api  | [2J[3J[H[[90m6:32:01 PM[0m] Starting compilation in watch mode...
+investia-api  | 
+investia-api  | [[90m6:32:13 PM[0m] Found 0 errors. Watching for file changes.
+investia-api  | 
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +86ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMulterModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +2ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalysisEngineModule dependencies initialized[39m[38;5;3m +3ms[39m
+investia-api  | [33m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [33m   WARN[39m [38;5;3m[OpenAiProvider] [39m[33mOpenAI API Key not configured[39m
+investia-api  | [33m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [33m   WARN[39m [38;5;3m[GeminiProvider] [39m[33mGemini API Key not configured[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [33m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [33m   WARN[39m [38;5;3m[RuleExtractionService] [39m[33mNo LLM API key configured, will use regex fallback[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMarketDataModule dependencies initialized[39m[38;5;3m +2ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +3ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAssetsModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDashboardModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAlertsModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mKnowledgeBaseModule dependencies initialized[39m[38;5;3m +2ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJobsModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +95ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +5ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPhilosophiesController {/philosophies}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/philosophies/upload, POST} route[39m[38;5;3m +2ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/philosophies, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/philosophies/:id, DELETE} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUsersController {/users}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/:id, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/:id, PUT} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/:id, DELETE} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAssetsController {/assets}:[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/ticker/:ticker, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id, PUT} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id/indicators, PATCH} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id, DELETE} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/refresh, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mJobsController {/jobs}:[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/jobs/sync-assets, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/jobs/sync-assets/status, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDashboardController {/dashboard}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/summary, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/performance, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/sectors, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/top-assets, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAlertsController {/alerts}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts/:id, PATCH} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts/:id, DELETE} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts/:id/toggle, PATCH} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:16 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +364ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:51 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:51 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:32:52 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:33:05 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:34:14 PM [32m    LOG[39m [38;5;3m[ListAssetsUseCase] [39m[32mListing assets - page: 1, filters: {}[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:34:14 PM [32m    LOG[39m [38;5;3m[ListAssetsUseCase] [39m[32mListing assets - page: 1, filters: {}[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:34:14 PM [32m    LOG[39m [38;5;3m[ListAssetsUseCase] [39m[32mListing assets - page: 1, filters: {}[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:35:56 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:36:00 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:01 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:07 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:07 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:07 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:42:07 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 6:55:04 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [32m    LOG[39m [38;5;3m[SyncAssetsProcessor] [39m[32mProcessing job repeat:89bc260ba2a64e2d2bc34e1c746fe295:1769799600000: sync-all[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [32m    LOG[39m [38;5;3m[SyncAssetsService] [39m[32mStarting asset synchronization...[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [32m    LOG[39m [38;5;3m[SyncAssetsService] [39m[32mFound 2 assets to sync[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [32m    LOG[39m [38;5;3m[BrapiService] [39m[32mFetching quotes for: VALE3,TEST4[39m
+investia-api  | [31m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [31m  ERROR[39m [38;5;3m[BrapiService] [39m[31mBrapi API error: 401 Unauthorized[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [32m    LOG[39m [38;5;3m[SyncAssetsService] [39m[32mSync completed in 0.35s: 0 updated, 2 failed[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [32m    LOG[39m [38;5;3m[SyncAssetsProcessor] [39m[32mJob repeat:89bc260ba2a64e2d2bc34e1c746fe295:1769799600000 completed: 0/2 assets updated[39m
+investia-api  | [33m[Nest] 29  - [39m01/30/2026, 7:00:00 PM [33m   WARN[39m [38;5;3m[SyncAssetsProcessor] [39m[33mErrors: [{"ticker":"VALE3","error":"Quote not found in Brapi response"},{"ticker":"TEST4","error":"Quote not found in Brapi response"}][39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:10:52 PM [32m    LOG[39m [38;5;3m[ListAssetsUseCase] [39m[32mListing assets - page: 1, filters: {}[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:10:52 PM [32m    LOG[39m [38;5;3m[ListAssetsUseCase] [39m[32mListing assets - page: 1, filters: {}[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:10:52 PM [32m    LOG[39m [38;5;3m[ListAssetsUseCase] [39m[32mListing assets - page: 1, filters: {}[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:10:54 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:10:54 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mUser logged in: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:29:49 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mUser logged in: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:02 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:03 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:03 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:03 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mUser logged in: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/30/2026, 7:30:07 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | npm error path /usr/src/app
+investia-api  | npm error command failed
+investia-api  | npm error signal SIGTERM
+investia-api  | npm error command sh -c nest start --watch --path tsconfig.build.json
+investia-api  | npm error A complete log of this run can be found in: /root/.npm/_logs/2026-01-30T18_32_00_463Z-debug-0.log
+investia-api  | 
+investia-api  | > app@0.0.1 start:dev
+investia-api  | > nest start --watch --path tsconfig.build.json
+investia-api  | 
+investia-api  | [2J[3J[H[[90m12:52:03 PM[0m] Starting compilation in watch mode...
+investia-api  | 
+investia-api  | [[90m12:52:10 PM[0m] Found 0 errors. Watching for file changes.
+investia-api  | 
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +36ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMulterModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalysisEngineModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [33m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [33m   WARN[39m [38;5;3m[OpenAiProvider] [39m[33mOpenAI API Key not configured[39m
+investia-api  | [33m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [33m   WARN[39m [38;5;3m[GeminiProvider] [39m[33mGemini API Key not configured[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [33m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [33m   WARN[39m [38;5;3m[RuleExtractionService] [39m[33mNo LLM API key configured, will use regex fallback[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMarketDataModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +2ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAssetsModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAlertsModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDashboardModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mKnowledgeBaseModule dependencies initialized[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJobsModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +43ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +5ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPhilosophiesController {/philosophies}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/philosophies/upload, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/philosophies, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/philosophies/:id, DELETE} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUsersController {/users}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/:id, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/:id, PUT} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/:id, DELETE} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAssetsController {/assets}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/ticker/:ticker, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id, PUT} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id/indicators, PATCH} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assets/:id, DELETE} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/refresh, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mJobsController {/jobs}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/jobs/sync-assets, POST} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/jobs/sync-assets/status, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDashboardController {/dashboard}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/summary, GET} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/performance, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/sectors, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/top-assets, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/dashboard/alerts, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAlertsController {/alerts}:[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts, POST} route[39m[38;5;3m +1ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts, GET} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts/:id, PATCH} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts/:id, DELETE} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/alerts/:id/toggle, PATCH} route[39m[38;5;3m +0ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:12 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +201ms[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:18 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:18 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mUser logged in: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:39 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:39 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:39 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:39 PM [32m    LOG[39m [38;5;3m[GetPortfolioPerformanceUseCase] [39m[32mPortfolio performance generated for user undefined, period: 30d[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:39 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:40 PM [32m    LOG[39m [38;5;3m[GetSectorDistributionUseCase] [39m[32mSector distribution generated for user undefined: 2 sectors[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:40 PM [32m    LOG[39m [38;5;3m[GetDashboardSummaryUseCase] [39m[32mDashboard summary generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:52:40 PM [32m    LOG[39m [38;5;3m[GetTopAssetsUseCase] [39m[32mTop 5 assets generated for user undefined[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:59:07 PM [32m    LOG[39m [38;5;3m[RefreshTokenUseCase] [39m[32mRefreshing access token[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:59:13 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:59:17 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:59:27 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:59:29 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m
+investia-api  | [32m[Nest] 29  - [39m01/31/2026, 12:59:31 PM [32m    LOG[39m [38;5;3m[LoginUseCase] [39m[32mLogin attempt: tononvalter@gmail.com[39m

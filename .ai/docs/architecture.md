@@ -106,3 +106,8 @@ Cada Use Case deve:
 **Contexto**: Regras de investimento variáveis por usuário  
 **Decisão**: Regras em JSON no banco, avaliação dinâmica  
 **Consequência**: Flexibilidade total, mas sem compile-time safety
+
+### ADR-004: Arquitetura de Prompts Modulares
+**Contexto**: A lógica de prompts estava acoplada aos Providers, dificultando a criação de novos modos de análise.
+**Decisão**: Implementar Padrão Strategy (`PromptStrategy`).
+**Consequência**: Desacoplamento total. Prompts viram classes isoladas, permitindo "Modos de Análise" plugáveis (Barsi, Graham, etc.). Ver [rules_engine.md](./rules_engine.md).
