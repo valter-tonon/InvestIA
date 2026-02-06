@@ -16,8 +16,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install all dependencies (including devDependencies for build)
-RUN npm ci
+# Install all dependencies with retry logic for network issues
+RUN npm ci || npm ci || npm ci
 
 # Generate Prisma Client
 RUN npx prisma generate
