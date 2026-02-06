@@ -161,6 +161,9 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
+            echo "==> Stopping orphan containers..."
+            docker compose -f docker-compose.prod.yml down --remove-orphans || true
+
             echo "==> Building and deploying containers..."
             docker compose -f docker-compose.prod.yml up -d --build
 
