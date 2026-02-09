@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             const userData = await authApi.me();
             setUser(userData);
-        } catch (error) {
+        } catch {
             // No valid session - user not authenticated
             setUser(null);
         } finally {
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const logout = async () => {
         try {
             await authApi.logout();
-        } catch (error) {
+        } catch {
             // Ignore errors on logout
         } finally {
             localStorage.removeItem('token');

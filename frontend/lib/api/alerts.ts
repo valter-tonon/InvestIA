@@ -1,7 +1,7 @@
 import { api } from './client';
 import { CreateAlertDto, PriceAlert, UpdateAlertDto } from '../types/alerts';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
 
 export const alertsApi = {
     create: async (data: CreateAlertDto): Promise<PriceAlert> => {

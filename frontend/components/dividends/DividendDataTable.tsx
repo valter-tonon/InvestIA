@@ -58,7 +58,7 @@ export default function DividendDataTable({ dividends }: DividendDataTableProps)
             <div className="text-center py-12 text-gray-400">
                 <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p className="text-lg">Nenhum dividendo encontrado</p>
-                <p className="text-sm mt-2">Clique em "Atualizar Dados" para sincronizar com a Brapi</p>
+                <p className="text-sm mt-2">Clique em &quot;Atualizar Dados&quot; para sincronizar com a Brapi</p>
             </div>
         );
     }
@@ -106,7 +106,7 @@ export default function DividendDataTable({ dividends }: DividendDataTableProps)
                     <select
                         value={typeFilter}
                         onChange={(e) => {
-                            setTypeFilter(e.target.value as any);
+                            setTypeFilter(e.target.value as 'ALL' | 'DIVIDEND' | 'JCP');
                             handleFilterChange();
                         }}
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -173,8 +173,8 @@ export default function DividendDataTable({ dividends }: DividendDataTableProps)
                                 <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                                     <span
                                         className={`px-3 py-1 inline-flex text-xs font-bold rounded-full shadow-sm ${dividend.type === 'DIVIDEND'
-                                                ? 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300'
-                                                : 'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 border border-blue-300'
+                                            ? 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300'
+                                            : 'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 border border-blue-300'
                                             }`}
                                     >
                                         {dividend.type === 'DIVIDEND' ? 'Dividendo' : 'JCP'}

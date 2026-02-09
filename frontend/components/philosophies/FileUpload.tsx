@@ -22,7 +22,7 @@ export function FileUpload({
     const [isDragging, setIsDragging] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const validateFile = (file: File): boolean => {
+    const validateFile = useCallback((file: File): boolean => {
         setError(null);
 
         // Validar tipo
@@ -39,13 +39,13 @@ export function FileUpload({
         }
 
         return true;
-    };
+    }, [accept, maxSize]);
 
-    const handleFile = (file: File) => {
+    const handleFile = useCallback((file: File) => {
         if (validateFile(file)) {
             onFileSelect(file);
         }
-    };
+    }, [onFileSelect, accept, maxSize, validateFile]);
 
     const handleDrop = useCallback(
         (e: React.DragEvent<HTMLDivElement>) => {
@@ -57,7 +57,7 @@ export function FileUpload({
                 handleFile(file);
             }
         },
-        [onFileSelect]
+        [handleFile]
     );
 
     const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {

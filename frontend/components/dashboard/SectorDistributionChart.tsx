@@ -27,7 +27,7 @@ export const SectorDistributionChart: React.FC<SectorDistributionChartProps> = (
                                 cx="50%"
                                 cy="50%"
                                 labelLine={false}
-                                label={(entry: any) => `${entry.sector}: ${entry.percentage}%`}
+                                label={(entry: SectorDistribution) => `${entry.sector}: ${entry.percentage}%`}
                                 outerRadius={80}
                                 fill="#8884d8"
                                 dataKey="value"
@@ -37,7 +37,7 @@ export const SectorDistributionChart: React.FC<SectorDistributionChartProps> = (
                                 ))}
                             </Pie>
                             <Tooltip
-                                formatter={(value: any) => [`R$ ${Number(value).toFixed(2)}`, 'Valor']}
+                                formatter={(value: number) => [`R$ ${Number(value).toFixed(2)}`, 'Valor']}
                             />
                             <Legend />
                         </PieChart>

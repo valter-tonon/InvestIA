@@ -12,7 +12,8 @@ import {
     Menu,
     ChevronRight,
     X,
-    TrendingUp
+    TrendingUp,
+    Calculator
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -26,12 +27,18 @@ const sidebarLinks = [
     { name: "Ranking", href: "/dashboard/ranking", icon: TrendingUp },
     { name: "Filosofias", href: "/dashboard/philosophies", icon: BrainCircuit },
     { name: "Alertas", href: "/dashboard/alerts", icon: Bell },
+    { name: "Simuladores", href: "/dashboard/simuladores", icon: Calculator },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+    collapsed: boolean;
+    setCollapsed: (collapsed: boolean) => void;
+}
+
+export function AppSidebar({ collapsed, setCollapsed }: AppSidebarProps) {
     const pathname = usePathname();
     const { user, logout } = useAuth();
-    const [collapsed, setCollapsed] = useState(false);
+    // collapsed state lifted up
     const [mobileOpen, setMobileOpen] = useState(false);
 
     // Close mobile menu on route change

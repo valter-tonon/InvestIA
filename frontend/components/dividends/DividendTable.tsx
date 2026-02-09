@@ -14,7 +14,7 @@ export default function DividendTable({ dividends }: DividendTableProps) {
         return (
             <div className="text-center py-12 text-gray-500">
                 <p className="text-lg">Nenhum dividendo encontrado</p>
-                <p className="text-sm mt-2">Clique em "Atualizar Dados" para sincronizar com a Brapi</p>
+                <p className="text-sm mt-2">Clique em &quot;Atualizar Dados&quot; para sincronizar com a Brapi</p>
             </div>
         );
     }

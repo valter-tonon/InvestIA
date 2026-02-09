@@ -50,7 +50,7 @@ export const assetImportApi = {
     /**
      * Search and import single asset
      */
-    searchAndImport: async (ticker: string): Promise<any> => {
+    searchAndImport: async (ticker: string): Promise<unknown> => {
         const response = await fetch(`${API_BASE_URL}/assets/import/search`, {
             method: 'POST',
             headers: {

@@ -412,7 +412,7 @@ For issues or questions:
 
 ## 🎯 Summary
 
-Your InvestIA application now has:
+Your InvestCopilot application now has:
 
 ✅ **Automated CI/CD Pipeline** - Tests and builds on every push
 ✅ **Multiple Deployment Strategies** - Staging and production with safety checks
