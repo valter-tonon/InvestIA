@@ -31,9 +31,9 @@ export default function LandingPage() {
             <Link href="/login">
               <Button variant="ghost" className="text-muted-foreground hover:text-foreground">Entrar</Button>
             </Link>
-            <Link href="/register">
+            <Link href="/simuladores">
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_20px_rgba(6,182,212,0.3)]">
-                Começar Grátis
+                Acessar Simuladores
               </Button>
             </Link>
           </div>
@@ -55,9 +55,9 @@ export default function LandingPage() {
               O InvestCopilot combina a sabedoria de mestres como Buffett e Bazin com algoritmos avançados para analisar ações, FIIs e ETFs em segundos.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/register">
+              <Link href="/simuladores">
                 <Button size="lg" className="h-12 px-8 text-lg bg-primary hover:bg-primary/90 shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all hover:scale-105">
-                  Analisar Meus Ativos
+                  Simulador de Investimentos
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
