@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, HttpCode, HttpStatus, UseGuards, Res } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus, UseGuards, Res, ForbiddenException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import type { Response } from 'express';
@@ -23,6 +23,8 @@ export class AuthController {
         @Body() input: RegisterInput,
         @Res({ passthrough: true }) response: Response,
     ) {
+        throw new ForbiddenException('Novos cadastros estão temporariamente desabilitados.');
+
         const result = await this.registerUseCase.execute(input);
 
         // SEC-005: Set HttpOnly cookies

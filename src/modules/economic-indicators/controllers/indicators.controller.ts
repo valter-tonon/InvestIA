@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 
 @ApiTags('indicators')
@@ -8,6 +9,8 @@ export class IndicatorsController {
     constructor(private readonly prisma: PrismaService) { }
 
     @Get()
+    @UseInterceptors(CacheInterceptor)
+    @CacheTTL(24 * 60 * 60 * 1000) // 24 hours in milliseconds
     @ApiOperation({ summary: 'Get current economic indicators (SELIC, CDI, IPCA)' })
     @ApiResponse({ status: 200, description: 'Returns key economic indicators' })
     async getIndicators() {

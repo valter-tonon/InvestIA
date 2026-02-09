@@ -51,57 +51,20 @@ export default function RegisterPage() {
                     <CardDescription>Comece sua jornada rumo à liberdade financeira</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="name">Nome Completo</Label>
-                            <Input
-                                id="name"
-                                placeholder="Seu nome"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                                disabled={loading}
-                                className="bg-white/5 border-white/10 focus:border-primary/50"
-                            />
+                    <div className="text-center space-y-4 py-8">
+                        <div className="p-3 bg-yellow-500/10 rounded-full w-fit mx-auto border border-yellow-500/20">
+                            <BrainCircuit className="h-8 w-8 text-yellow-500" />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="seu@email.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                disabled={loading}
-                                className="bg-white/5 border-white/10 focus:border-primary/50"
-                            />
+                            <h3 className="text-lg font-semibold text-white">Cadastros Temporariamente Pausados</h3>
+                            <p className="text-muted-foreground text-sm max-w-[280px] mx-auto">
+                                Estamos atualizando nossa infraestrutura para melhor atendê-lo. Por favor, tente novamente mais tarde.
+                            </p>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Senha</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                disabled={loading}
-                                minLength={6}
-                                className="bg-white/5 border-white/10 focus:border-primary/50"
-                            />
-                            <p className="text-xs text-muted-foreground">Mínimo de 6 caracteres</p>
-                        </div>
-                        <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold" disabled={loading}>
-                            {loading ? 'Criando conta...' : 'Criar Conta Gratuita'}
+                        <Button asChild className="w-full mt-4" variant="outline">
+                            <Link href="/login">Voltar para o Login</Link>
                         </Button>
-                        <div className="text-center text-sm text-muted-foreground mt-4">
-                            Já tem uma conta?{' '}
-                            <Link href="/login" className="font-medium text-primary hover:text-primary/80 transition-colors">
-                                Fazer login
-                            </Link>
-                        </div>
-                    </form>
+                    </div>
                 </CardContent>
             </Card>
         </div>

@@ -2,6 +2,8 @@ import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/c
 import { ConfigModule } from '@nestjs/config';
 import { BullModule } from '@nestjs/bullmq';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-store';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -43,6 +45,19 @@ import { EconomicIndicatorsModule } from './modules/economic-indicators/economic
         limit: 100, // 100 requisições por TTL
       },
     ]),
+
+    // Cache com Redis
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory: async () => ({
+        store: await redisStore({
+          socket: {
+            host: process.env.REDIS_HOST || 'redis',
+            port: parseInt(process.env.REDIS_PORT || '6379'),
+          },
+        }),
+      }),
+    }),
 
     // Módulos da aplicação
     DatabaseModule,

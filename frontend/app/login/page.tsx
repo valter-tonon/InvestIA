@@ -82,12 +82,13 @@ export default function LoginPage() {
                         <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold" disabled={loading}>
                             {loading ? 'Entrando...' : 'Acessar Plataforma'}
                         </Button>
-                        <div className="text-center text-sm text-muted-foreground mt-4">
+                        {/* Cadastros desabilitados temporariamente */}
+                        {/* <div className="text-center text-sm text-muted-foreground mt-4">
                             Não tem uma conta?{' '}
                             <Link href="/register" className="font-medium text-primary hover:text-primary/80 transition-colors">
                                 Criar conta gratuita
                             </Link>
-                        </div>
+                        </div> */}
                     </form>
                 </CardContent>
             </Card>
