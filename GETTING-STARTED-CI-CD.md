@@ -1,4 +1,4 @@
-# 🚀 Getting Started - InvestIA CI/CD
+# 🚀 Getting Started - InvestCopilot CI/CD
 
 **Your CI/CD pipeline is ready.** This 5-minute guide will get you deployed.
 
@@ -214,8 +214,7 @@ Choose one:
 - **Fast Track:** Run Option A above (one command)
 - **Automated Track:** Do Option B above (5-minute setup)
 
-Both result in the same outcome:
-✅ Application live at http://141.148.139.27
+Both result in the same Your InvestCopilot application now has:t http://141.148.139.27
 ✅ API at http://141.148.139.27:3001
 ✅ Swagger docs at http://141.148.139.27:3001/api
 

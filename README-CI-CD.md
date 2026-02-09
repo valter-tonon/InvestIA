@@ -1,4 +1,4 @@
-# 🚀 InvestIA CI/CD - Quick Start Guide
+# 🚀 InvestCopilot CI/CD - Quick Start Guide
 
 Complete CI/CD pipeline for automated testing, building, and deployment to Oracle instance.
 

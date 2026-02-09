@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ##########################################################################
-# INVESTIA DEPLOYMENT SCRIPT
-# Deploys the InvestIA application to Oracle instance via SSH
+# INVESTCOPILOT DEPLOYMENT SCRIPT
+# Deploys the InvestCopilot application to Oracle instance via SSH
 #
 # Usage: ./deploy.sh <environment> [version]
 # Example: ./deploy.sh production v1.0.0

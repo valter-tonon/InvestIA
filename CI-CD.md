@@ -1,4 +1,4 @@
-# InvestIA CI/CD Pipeline Documentation
+# InvestCopilot CI/CD Pipeline Documentation
 
 Complete guide for the CI/CD pipeline setup, GitHub Actions workflows, and deployment process.
 
@@ -504,4 +504,4 @@ echo ".env.production" >> .gitignore
 
 **Last Updated:** 2026-02-04
 **Version:** 1.0
-**Maintainer:** InvestIA Team
+**Maintainer:** InvestCopilot Team

@@ -30,7 +30,7 @@ export class EmailNotificationService implements INotificationService {
 
         // Simple HTML template
         const html = `
-      <h1>🔔 Alerta de Preço - InvestIA</h1>
+      <h1>🔔 Alerta de Preço - InvestCopilot</h1>
       <p>Olá, <strong>${userName}</strong>!</p>
       
       <p>O ativo <strong>${assetTicker}</strong> atingiu sua condição de alerta.</p>
@@ -50,7 +50,7 @@ export class EmailNotificationService implements INotificationService {
             }
 
             await this.transporter.sendMail({
-                from: '"InvestIA Alertas" <alerts@investia.com>',
+                from: '"InvestCopilot Alertas" <alerts@investcopilot.com>',
                 to: userEmail,
                 subject: `🔔 Alerta: ${assetTicker} atingiu o alvo!`,
                 html,

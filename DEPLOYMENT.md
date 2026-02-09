@@ -1,6 +1,6 @@
-# InvestIA Deployment Guide
+# InvestCopilot Deployment Guide
 
-Complete guide for deploying InvestIA to production on Oracle instance.
+Complete guide for deploying InvestCopilot to production on Oracle instance.
 
 ## 📋 Prerequisites
 

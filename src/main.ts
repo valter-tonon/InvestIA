@@ -50,7 +50,7 @@ async function bootstrap() {
 
   // Configuração do Swagger
   const config = new DocumentBuilder()
-    .setTitle('InvestIA API')
+    .setTitle('InvestCopilot API')
     .setDescription('API para análise e recomendação de investimentos com IA')
     .setVersion('1.0')
     .addTag('investments')

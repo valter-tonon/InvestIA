@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##########################################################################
-# HEALTH CHECK SCRIPT FOR INVESTIA
+# HEALTH CHECK SCRIPT FOR INVESTCOPILOT
 # Monitors API, Frontend, Database, and Redis health
 #
 # Usage: ./health-check.sh [interval] [max_failures]
@@ -200,7 +200,7 @@ check_and_report() {
 
 # Main loop
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}InvestIA Health Check Monitor${NC}"
+echo -e "${BLUE}InvestCopilot Health Check Monitor${NC}"
 echo -e "${BLUE}Check interval: ${CHECK_INTERVAL}s | Max failures: ${MAX_FAILURES}${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
 
