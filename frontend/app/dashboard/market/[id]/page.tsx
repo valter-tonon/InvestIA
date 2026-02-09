@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { assetsApi } from '@/lib/api/assets';
@@ -32,24 +32,7 @@ export default function AssetDetailsPage() {
     const [fairPrice, setFairPrice] = useState<FairPriceResponse | null>(null);
     const [loadingFairPrice, setLoadingFairPrice] = useState(true);
 
-    useEffect(() => {
-        if (!user) {
-            router.push('/login');
-            return;
-        }
-        if (params.id) {
-            loadAsset();
-        }
-    }, [user, params.id]);
-
-    useEffect(() => {
-        if (asset) {
-            loadDividends();
-            loadFairPrice();
-        }
-    }, [asset]);
-
-    const loadAsset = async () => {
+    const loadAsset = useCallback(async () => {
         try {
             setLoading(true);
             const data = await assetsApi.getById(params.id as string);
@@ -61,7 +44,17 @@ export default function AssetDetailsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [params.id, router]);
+
+    useEffect(() => {
+        if (!user) {
+            router.push('/login');
+            return;
+        }
+        if (params.id) {
+            loadAsset();
+        }
+    }, [user, params.id, router, loadAsset]);
 
     const handleDelete = async () => {
         if (!asset) return;
@@ -77,7 +70,7 @@ export default function AssetDetailsPage() {
         }
     };
 
-    const loadDividends = async () => {
+    const loadDividends = useCallback(async () => {
         if (!asset) return;
         try {
             setLoadingDividends(true);
@@ -88,9 +81,9 @@ export default function AssetDetailsPage() {
         } finally {
             setLoadingDividends(false);
         }
-    };
+    }, [asset]);
 
-    const loadFairPrice = async () => {
+    const loadFairPrice = useCallback(async () => {
         if (!asset) return;
         try {
             setLoadingFairPrice(true);
@@ -101,7 +94,14 @@ export default function AssetDetailsPage() {
         } finally {
             setLoadingFairPrice(false);
         }
-    };
+    }, [asset]);
+
+    useEffect(() => {
+        if (asset) {
+            loadDividends();
+            loadFairPrice();
+        }
+    }, [asset, loadDividends, loadFairPrice]);
 
     const handleSyncDividends = async () => {
         if (!asset) return;
@@ -111,7 +111,7 @@ export default function AssetDetailsPage() {
             setDividends(data);
             toast.success('Dividendos sincronizados com sucesso!');
             await loadFairPrice(); // Recalculate fair price after sync
-        } catch (_error) {
+        } catch {
             toast.error('Erro ao sincronizar dividendos');
         } finally {
             setSyncingDividends(false);

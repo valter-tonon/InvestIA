@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { assetsApi } from '@/lib/api/assets';
@@ -30,26 +30,7 @@ export default function AssetsPage() {
     const [totalPages, setTotalPages] = useState(1);
     const router = useRouter();
 
-    useEffect(() => {
-        if (!authLoading && !user) {
-            router.push('/login');
-        }
-    }, [user, authLoading, router]);
-
-    useEffect(() => {
-        if (user) {
-            loadAssets();
-        }
-    }, [user]);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (user) loadAssets();
-        }, 300);
-        return () => clearTimeout(timer);
-    }, [filters]);
-
-    const loadAssets = async () => {
+    const loadAssets = useCallback(async () => {
         try {
             setLoading(true);
             const response = await assetsApi.list(filters);
@@ -62,7 +43,26 @@ export default function AssetsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [filters]);
+
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push('/login');
+        }
+    }, [user, authLoading, router]);
+
+    useEffect(() => {
+        if (user) {
+            loadAssets();
+        }
+    }, [user, loadAssets]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (user) loadAssets();
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [filters, user, loadAssets]);
 
     const handleDelete = async (id: string, ticker: string) => {
         if (!confirm(`Tem certeza que deseja remover o ativo ${ticker}?`)) return;
