@@ -1,6 +1,5 @@
 'use client';
 
-import { Metadata } from 'next';
 import CompoundInterestCalculator from '@/components/calculators/CompoundInterestCalculator';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,7 @@ export default function CompoundInterestPage() {
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-foreground">Como funciona?</h2>
                     <p>
-                        Juros compostos são juros sobre juros. Quando você investe, o rendimento gera novos rendimentos no período seguinte, criando um efeito "bola de neve" exponencial.
+                        Juros compostos são juros sobre juros. Quando você investe, o rendimento gera novos rendimentos no período seguinte, criando um efeito &quot;bola de neve&quot; exponencial.
                     </p>
                     <p>
                         Nossa calculadora utiliza a taxa Selic e o IPCA atuais para entregar simulações realistas, permitindo que você projete sua liberdade financeira.

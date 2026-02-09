@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrendingUp, DollarSign, Briefcase, Activity, RefreshCcw } from 'lucide-react';
 import { dashboardApi } from '@/lib/api/dashboard';
 import { MetricCard } from '@/components/dashboard/MetricCard';
@@ -24,14 +24,7 @@ export default function DashboardPage() {
     const [period, setPeriod] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
     const [dataLoading, setDataLoading] = useState(true);
 
-    // Initial load
-    useEffect(() => {
-        if (user) {
-            loadDashboardData();
-        }
-    }, [user, period]);
-
-    const loadDashboardData = async () => {
+    const loadDashboardData = useCallback(async () => {
         try {
             setDataLoading(true);
             const [summaryData, performanceData, sectorsData, topAssetsData, alertsData] = await Promise.all([
@@ -52,7 +45,14 @@ export default function DashboardPage() {
         } finally {
             setDataLoading(false);
         }
-    };
+    }, [period]);
+
+    // Initial load
+    useEffect(() => {
+        if (user) {
+            loadDashboardData();
+        }
+    }, [user, period, loadDashboardData]);
 
     return (
         <div className="space-y-8">
@@ -121,7 +121,7 @@ export default function DashboardPage() {
                 {/* Evolution Chart */}
                 <div className="lg:col-span-4">
                     <div className="flex items-center justify-end mb-2">
-                        <Tabs value={period} onValueChange={(value) => setPeriod(value as any)} className="w-[200px]">
+                        <Tabs value={period} onValueChange={(value) => setPeriod(value as '7d' | '30d' | '90d' | '1y')} className="w-[200px]">
                             <TabsList className="grid w-full grid-cols-4 h-8 bg-background/50">
                                 <TabsTrigger value="7d" className="text-xs">7D</TabsTrigger>
                                 <TabsTrigger value="30d" className="text-xs">1M</TabsTrigger>

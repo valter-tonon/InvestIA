@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { CalculatorIcon, Loader2, TrendingUp, PiggyBank } from 'lucide-react';
+import { CalculatorIcon, Loader2, TrendingUp } from 'lucide-react';
 import { toast } from 'sonner';
 import { calculateCompoundInterest, CalculatorResult } from '@/lib/calculators/compound-interest';
 import { indicatorsApi } from '@/lib/api/indicators';

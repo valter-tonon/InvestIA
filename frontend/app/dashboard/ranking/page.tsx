@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { rankingApi } from '@/lib/api/ranking';
@@ -27,6 +27,20 @@ export default function RankingPage() {
     const [strategy, setStrategy] = useState<RankingStrategy>('COMPOSITE' as RankingStrategy);
     const router = useRouter();
 
+    const loadRanking = useCallback(async () => {
+        try {
+            setLoading(true);
+            const data = await rankingApi.getRanking(strategy, 20);
+            setAssets(data);
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao carregar ranking';
+            toast.error(message);
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [strategy]);
+
     useEffect(() => {
         if (!authLoading && !user) {
             router.push('/login');
@@ -37,20 +51,7 @@ export default function RankingPage() {
         if (user) {
             loadRanking();
         }
-    }, [user, strategy]);
-
-    const loadRanking = async () => {
-        try {
-            setLoading(true);
-            const data = await rankingApi.getRanking(strategy, 20);
-            setAssets(data);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao carregar ranking');
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [user, strategy, loadRanking]);
 
     const getScoreColor = (score: number): string => {
         if (score >= 0.5) return 'bg-green-500';

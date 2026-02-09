@@ -16,14 +16,14 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { cn, formatCurrency } from '@/lib/utils';
+import { formatCurrency } from '@/lib/utils';
 import { AssetSkeleton } from '@/components/assets/AssetSkeleton';
 import { AssetTypeBadge } from '@/components/assets/IndicatorBadge';
 import { toast } from 'sonner';
-import { Plus, Search, Trash2, Eye, Edit } from 'lucide-react';
+import { Plus, Search, Trash2, Eye } from 'lucide-react';
 
 export default function AssetsPage() {
-    const { user, loading: authLoading, logout } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const [assets, setAssets] = useState<Asset[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<AssetFilters>({ page: 1, perPage: 10 });
@@ -55,8 +55,9 @@ export default function AssetsPage() {
             const response = await assetsApi.list(filters);
             setAssets(response.data);
             setTotalPages(response.meta.lastPage);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao carregar ativos');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao carregar ativos';
+            toast.error(message);
             console.error(error);
         } finally {
             setLoading(false);
@@ -70,8 +71,9 @@ export default function AssetsPage() {
             await assetsApi.delete(id);
             toast.success('Ativo removido com sucesso!');
             loadAssets();
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao remover ativo');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao remover ativo';
+            toast.error(message);
         }
     };
 

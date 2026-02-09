@@ -25,8 +25,8 @@ export default function AdminAssetImportPage() {
                 skipRecent: true,
             });
             setImportResult(result);
-        } catch (err: any) {
-            setError(err.message || 'Erro ao importar ativos');
+        } catch (err: unknown) {
+            setError((err as { message?: string }).message || 'Erro ao importar ativos');
         } finally {
             setImporting(false);
         }
@@ -42,8 +42,8 @@ export default function AdminAssetImportPage() {
             await assetImportApi.searchAndImport(searchTicker.toUpperCase());
             setSearchTicker('');
             alert(`Ativo ${searchTicker.toUpperCase()} importado com sucesso!`);
-        } catch (err: any) {
-            setError(err.message || 'Erro ao importar ativo');
+        } catch (err: unknown) {
+            setError((err as { message?: string }).message || 'Erro ao importar ativo');
         } finally {
             setImporting(false);
         }

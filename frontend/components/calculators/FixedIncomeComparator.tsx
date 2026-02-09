@@ -6,11 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2, TrendingUp, ArrowRightLeft, Info, ChevronDown } from 'lucide-react';
+import { Loader2, ArrowRightLeft, Info, ChevronDown } from 'lucide-react';
 import { calculateFixedIncome, calculateFixedIncomeWithContributions, FixedIncomeResult, FixedIncomeResultWithContributions, AssetType, IndexerType, ContributionConfig } from '@/lib/calculators/fixed-income';
 import { indicatorsApi } from '@/lib/api/indicators';
 import { formatCurrency } from '@/lib/utils';
-import { Slider } from '@/components/ui/slider';
 import {
     Tooltip,
     TooltipContent,
@@ -132,11 +131,11 @@ export default function FixedIncomeComparator() {
 
     if (loading) return <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />;
 
-    const isContributionResult = (res: any): res is FixedIncomeResultWithContributions => {
-        return res && 'contributionCount' in res;
+    const isContributionResult = (res: FixedIncomeResult | FixedIncomeResultWithContributions | null): res is FixedIncomeResultWithContributions => {
+        return !!(res && 'contributionCount' in res);
     };
 
-    const renderResultCard = (title: string, res: FixedIncomeResult | FixedIncomeResultWithContributions | null, asset: any) => {
+    const renderResultCard = (title: string, res: FixedIncomeResult | FixedIncomeResultWithContributions | null, asset: { type: AssetType, rate: number, indexer: string }) => {
         if (!res) return null;
         return (
             <Card className="border-l-4 border-l-primary/50 relative overflow-hidden">
@@ -303,9 +302,9 @@ export default function FixedIncomeComparator() {
                                                 <Label>Aumentar Aportes</Label>
                                                 <Select
                                                     value={contributionConfig.increaseType}
-                                                    onValueChange={(v: any) => setContributionConfig({
+                                                    onValueChange={(v: string) => setContributionConfig({
                                                         ...contributionConfig,
-                                                        increaseType: v
+                                                        increaseType: v as 'none' | 'percentage' | 'fixed'
                                                     })}
                                                 >
                                                     <SelectTrigger><SelectValue /></SelectTrigger>
@@ -390,7 +389,7 @@ export default function FixedIncomeComparator() {
                             </div>
                             <div className="w-[120px] space-y-2">
                                 <Label>Unidade</Label>
-                                <Select value={periodUnit} onValueChange={(v: any) => setPeriodUnit(v)}>
+                                <Select value={periodUnit} onValueChange={(v: 'months' | 'years' | 'days') => setPeriodUnit(v)}>
                                     <SelectTrigger>
                                         <SelectValue />
                                     </SelectTrigger>
@@ -414,7 +413,7 @@ export default function FixedIncomeComparator() {
                                 </TooltipProvider>
                             </Label>
                             <div className="grid grid-cols-2 gap-2">
-                                <Select value={assetA.type} onValueChange={(v: any) => setAssetA({ ...assetA, type: v })}>
+                                <Select value={assetA.type} onValueChange={(v: AssetType) => setAssetA({ ...assetA, type: v })}>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="CDB">CDB</SelectItem>
@@ -444,7 +443,7 @@ export default function FixedIncomeComparator() {
                                 </TooltipProvider>
                             </Label>
                             <div className="grid grid-cols-2 gap-2">
-                                <Select value={assetB.type} onValueChange={(v: any) => setAssetB({ ...assetB, type: v })}>
+                                <Select value={assetB.type} onValueChange={(v: AssetType) => setAssetB({ ...assetB, type: v })}>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="LCI">LCI</SelectItem>

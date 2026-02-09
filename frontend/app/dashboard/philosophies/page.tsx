@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dialog';
 
 export default function PhilosophiesPage() {
-    const { user, loading: authLoading, logout } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const router = useRouter();
     const [philosophies, setPhilosophies] = useState<Philosophy[]>([]);
     const [loading, setLoading] = useState(true);
@@ -42,8 +42,9 @@ export default function PhilosophiesPage() {
             setLoading(true);
             const data = await philosophiesApi.list();
             setPhilosophies(data);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao carregar filosofias');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao carregar filosofias';
+            toast.error(message);
             console.error(error);
         } finally {
             setLoading(false);
@@ -57,8 +58,9 @@ export default function PhilosophiesPage() {
             await philosophiesApi.delete(id);
             toast.success('Filosofia removida com sucesso!');
             loadPhilosophies();
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao remover filosofia');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao remover filosofia';
+            toast.error(message);
         }
     };
 

@@ -44,8 +44,9 @@ export default function UploadPhilosophyPage() {
 
             toast.success('Filosofia enviada com sucesso! A IA está processando o PDF...');
             router.push('/dashboard/philosophies');
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao fazer upload da filosofia');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao fazer upload da filosofia';
+            toast.error(message);
             console.error(error);
         } finally {
             setUploading(false);

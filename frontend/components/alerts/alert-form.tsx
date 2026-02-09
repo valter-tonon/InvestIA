@@ -21,7 +21,7 @@ export function AlertForm({ open, onOpenChange, onSubmit }: AlertFormProps) {
     const [loadingAssets, setLoadingAssets] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
-    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<CreateAlertDto>({
+    const { register, handleSubmit, setValue, watch, reset } = useForm<CreateAlertDto>({
         defaultValues: {
             condition: AlertCondition.ABOVE,
             targetPrice: 0,
@@ -33,7 +33,7 @@ export function AlertForm({ open, onOpenChange, onSubmit }: AlertFormProps) {
             loadAssets();
             reset();
         }
-    }, [open]);
+    }, [open, reset]);
 
     const loadAssets = async () => {
         setLoadingAssets(true);

@@ -11,7 +11,7 @@ import { AssetTypeBadge, IndicatorBadge } from '@/components/assets/IndicatorBad
 import { toast } from 'sonner';
 import { Trash2, ChevronDown, Plus } from 'lucide-react';
 import { dividendsApi } from '@/lib/api/dividendsApi';
-import { cn, formatCurrency } from '@/lib/utils';
+import { formatCurrency } from '@/lib/utils';
 import { Dividend } from '@/types/dividend';
 import DividendSummary from '@/components/dividends/DividendSummary';
 import DividendChart from '@/components/dividends/DividendChart';
@@ -54,8 +54,9 @@ export default function AssetDetailsPage() {
             setLoading(true);
             const data = await assetsApi.getById(params.id as string);
             setAsset(data);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao carregar ativo');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao carregar ativo';
+            toast.error(message);
             router.push('/dashboard/market');
         } finally {
             setLoading(false);
@@ -70,8 +71,9 @@ export default function AssetDetailsPage() {
             await assetsApi.delete(asset.id);
             toast.success('Ativo removido com sucesso!');
             router.push('/dashboard/market');
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao remover ativo');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao remover ativo';
+            toast.error(message);
         }
     };
 
@@ -109,7 +111,7 @@ export default function AssetDetailsPage() {
             setDividends(data);
             toast.success('Dividendos sincronizados com sucesso!');
             await loadFairPrice(); // Recalculate fair price after sync
-        } catch (error) {
+        } catch (_error) {
             toast.error('Erro ao sincronizar dividendos');
         } finally {
             setSyncingDividends(false);

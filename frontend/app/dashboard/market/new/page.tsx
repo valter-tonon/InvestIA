@@ -48,8 +48,9 @@ export default function NewAssetPage() {
             });
             toast.success('Ativo criado com sucesso!');
             router.push('/dashboard/assets');
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Erro ao criar ativo');
+        } catch (error: unknown) {
+            const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erro ao criar ativo';
+            toast.error(message);
         } finally {
             setLoading(false);
         }

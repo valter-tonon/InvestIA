@@ -45,7 +45,7 @@ export function FileUpload({
         if (validateFile(file)) {
             onFileSelect(file);
         }
-    }, [onFileSelect, accept, maxSize, validateFile]);
+    }, [onFileSelect, validateFile]);
 
     const handleDrop = useCallback(
         (e: React.DragEvent<HTMLDivElement>) => {

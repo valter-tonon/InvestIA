@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/alert-dialog';
 
 export default function AlertsPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
 
     const [alerts, setAlerts] = useState<PriceAlert[]>([]);

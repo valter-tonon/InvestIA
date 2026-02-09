@@ -7,7 +7,6 @@ import {
     PieChart,
     BrainCircuit,
     Bell,
-    Settings,
     LogOut,
     Menu,
     ChevronRight,
