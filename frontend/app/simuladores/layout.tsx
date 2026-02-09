@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 
 export default function PublicToolsLayout({
     children,
@@ -8,18 +8,21 @@ export default function PublicToolsLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-background flex flex-col">
+        <div className="min-h-screen bg-[#030712] flex flex-col">
             {/* Simplified Header */}
-            <header className="border-b sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <header className="border-b border-white/5 sticky top-0 z-50 bg-black/60 backdrop-blur-xl">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl group">
-                        <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
-                            <LayoutDashboard className="h-6 w-6 text-primary" />
+                        <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors border border-primary/20">
+                            <BrainCircuit className="h-6 w-6 text-primary" />
                         </div>
-                        <span>InvestCopilot</span>
+                        <span className="font-display tracking-tight text-white">InvestCopilot</span>
                     </Link>
 
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
+                        <Link href="/simuladores" className="hover:text-primary transition-colors">
+                            Início
+                        </Link>
                         <Link href="/simuladores/juros-compostos" className="hover:text-primary transition-colors">
                             Juros Compostos
                         </Link>
@@ -30,11 +33,9 @@ export default function PublicToolsLayout({
 
                     <div className="flex items-center gap-4">
                         <Link href="/login">
-                            <Button variant="ghost">Entrar</Button>
+                            <Button variant="ghost" className="text-muted-foreground hover:text-white">Entrar</Button>
                         </Link>
-                        <Link href="/register">
-                            <Button>Criar Conta</Button>
-                        </Link>
+                        {/* Cadastro pausado */}
                     </div>
                 </div>
             </header>
