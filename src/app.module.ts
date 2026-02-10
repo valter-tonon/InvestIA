@@ -22,6 +22,7 @@ import { FairPriceModule } from './modules/fair-price/fair-price.module';
 import { CsrfMiddleware } from './common/middleware/csrf.middleware';
 import { RankingModule } from './modules/ranking/ranking.module';
 import { EconomicIndicatorsModule } from './modules/economic-indicators/economic-indicators.module';
+import { AdminModule } from './modules/admin';
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { EconomicIndicatorsModule } from './modules/economic-indicators/economic
     FairPriceModule,
     RankingModule,
     EconomicIndicatorsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [

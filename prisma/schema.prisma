@@ -20,6 +20,7 @@ model User {
   priceAlerts      PriceAlert[]
   strategyProfiles StrategyProfile[]
   wallets          Wallet[]
+  subscription     Subscription?
 
   @@map("users")
 }
@@ -170,6 +171,73 @@ enum AssetType {
   ETF
   BDR
   CRYPTO
+}
+
+// Planos de assinatura (flexível para customização)
+model Plan {
+  id            String         @id @default(uuid())
+  name          String         @unique // Identificador interno: "free", "pro", "premium", "custom_123"
+  displayName   String         // Nome exibido: "Plano Free", "Plano Pro"
+  description   String?        // Descrição do plano
+  price         Decimal        @default(0) @db.Decimal(10, 2) // Preço em reais
+  interval      PlanInterval   @default(MONTHLY) // monthly, yearly, lifetime
+  features      Json           // Lista de features: { "maxAssets": 10, "aiAnalysis": true, ... }
+  maxAssets     Int?           // Limite de ativos (null = ilimitado)
+  maxWallets    Int?           // Limite de carteiras (null = ilimitado)
+  maxAlerts     Int?           // Limite de alertas de preço (null = ilimitado)
+  aiAnalysis    Boolean        @default(false) // Acesso a análise AI
+  prioritySupport Boolean      @default(false) // Suporte prioritário
+  customizable  Boolean        @default(false) // Plano pode ser customizado
+  active        Boolean        @default(true) // Plano ativo/disponível
+  sortOrder     Int            @default(0) // Ordem de exibição
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+// Assinatura do usuário (desacoplada de gateway de pagamento)
+model Subscription {
+  id        String             @id @default(uuid())
+  userId    String             @unique @map("user_id")
+  planId    String             @map("plan_id")
+  plan      Plan               @relation(fields: [planId], references: [id])
+  status    SubscriptionStatus @default(ACTIVE)
+  startDate DateTime           @default(now()) @map("start_date")
+  endDate   DateTime?          @map("end_date")
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+// Log de atividades para auditoria
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String?  @map("user_id")
+  action    String
+  details   Json?
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+enum PlanInterval {
+  MONTHLY
+  YEARLY
+  LIFETIME
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  EXPIRED
+  TRIAL
 }
 
 // Indicadores Econômicos (Selic, CDI, IPCA)
