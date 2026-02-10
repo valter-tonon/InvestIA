@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, HttpCode, HttpStatus, UseGuards, Res, ForbiddenException } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus, UseGuards, Res, ForbiddenException, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import type { Response } from 'express';
@@ -6,6 +6,8 @@ import { RegisterUseCase, LoginUseCase, RefreshTokenUseCase } from '../../applic
 import { RegisterInput, LoginInput, RefreshTokenInput } from '../../application/dtos';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { CurrentUser } from '../decorators/current-user.decorator';
+import type { IUserRepository } from '../../../users/application/interfaces/user-repository.interface';
+import { UserOutput } from '../../../users/application/dtos';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -14,6 +16,8 @@ export class AuthController {
         private readonly registerUseCase: RegisterUseCase,
         private readonly loginUseCase: LoginUseCase,
         private readonly refreshTokenUseCase: RefreshTokenUseCase,
+        @Inject('IUserRepository')
+        private readonly userRepository: IUserRepository,
     ) { }
 
     @Post('register')
@@ -79,8 +83,13 @@ export class AuthController {
     @Get('me')
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
-    async getMe(@CurrentUser() user: { id: string; email: string; name: string }) {
-        return { data: user };
+    async getMe(@CurrentUser() currentUser: { id: string }) {
+        // Buscar dados atualizados do usuário no banco de dados para incluir avatar e role
+        const user = await this.userRepository.findById(currentUser.id);
+        if (!user) {
+            throw new ForbiddenException('Usuário não encontrado');
+        }
+        return { data: UserOutput.fromEntity(user) };
     }
 
     // SEC-005: Logout endpoint to clear cookies

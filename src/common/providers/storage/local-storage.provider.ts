@@ -8,6 +8,7 @@ import * as crypto from 'crypto';
 @Injectable()
 export class LocalStorageProvider implements StorageProvider {
     private readonly uploadDir = 'public/uploads';
+    private readonly apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3001';
 
     constructor() {
         this.ensureUploadDir();
@@ -34,8 +35,10 @@ export class LocalStorageProvider implements StorageProvider {
 
         await fs.writeFile(fullPath, file.buffer);
 
-        // Return the public URL path (assuming /uploads is served)
-        return `/uploads/${relativePath}`;
+        // Return the complete public URL (relative to API base)
+        const publicPath = `/uploads/${relativePath}`.replace(/\\/g, '/');
+        const apiUrl = this.apiBaseUrl.endsWith('/') ? this.apiBaseUrl.slice(0, -1) : this.apiBaseUrl;
+        return `${apiUrl}${publicPath}`;
     }
 
     async delete(filePath: string): Promise<void> {

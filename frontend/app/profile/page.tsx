@@ -2,21 +2,24 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { updateProfile, uploadAvatar } from "@/lib/api/user"; // Need to create/export this
+import { updateProfile, uploadAvatar, changePassword } from "@/lib/api/user"; // Need to create/export this
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
-import { Camera, Loader2, Save, User } from "lucide-react";
+import { Camera, Loader2, Save, User, Lock } from "lucide-react";
+import { getAvatarUrl } from "@/lib/utils";
 
 
 export default function ProfilePage() {
-    const { user } = useAuth(); // login aqui serve para atualizar o user no contexto se mudar
+    const { user, refreshUser } = useAuth();
     const [name, setName] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+    const [passwordData, setPasswordData] = useState({ oldPassword: "", newPassword: "", confirmPassword: "" });
+    const [isPasswordLoading, setIsPasswordLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -33,15 +36,27 @@ export default function ProfilePage() {
         const file = e.target.files?.[0];
         if (!file) return;
 
+        // Validar tipo de arquivo
+        if (!file.type.startsWith('image/')) {
+            toast.error("Por favor, selecione um arquivo de imagem.");
+            return;
+        }
+
+        // Validar tamanho máximo (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error("A imagem deve ter no máximo 5MB.");
+            return;
+        }
+
         setIsUploading(true);
         try {
             await uploadAvatar(file);
             toast.success("Foto de perfil atualizada!");
-            // Atualizar contexto local (hack: chamar login com token existente atualiza user?) 
-            // Não, precisamos de um método 'refreshUser' no AuthContext ou atualizar manualmente.
-            // Por enquanto, reload na página ou confiar que o backend retorna o user atualizado e setamos algo local?
-            // O ideal é o useAuth expor um mutate ou refresh.
-            window.location.reload();
+            await refreshUser();
+            // Limpar input para permitir upload do mesmo arquivo novamente
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
         } catch (error) {
             console.error(error);
             toast.error("Erro ao atualizar foto.");
@@ -52,17 +67,57 @@ export default function ProfilePage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!name.trim()) {
+            toast.error("Por favor, preencha o nome.");
+            return;
+        }
+
         setIsLoading(true);
         try {
             await updateProfile({ name });
             toast.success("Perfil atualizado com sucesso!");
-            window.location.reload();
+            await refreshUser();
         } catch (error) {
             console.error(error);
             toast.error("Erro ao atualizar perfil.");
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handlePasswordSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            toast.error("A nova senha e a confirmação não coincidem.");
+            return;
+        }
+
+        if (passwordData.newPassword.length < 6) {
+            toast.error("A nova senha deve ter pelo menos 6 caracteres.");
+            return;
+        }
+
+        setIsPasswordLoading(true);
+        try {
+            await changePassword({
+                oldPassword: passwordData.oldPassword,
+                newPassword: passwordData.newPassword
+            });
+            toast.success("Senha alterada com sucesso!");
+            setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
+        } catch (error: any) {
+            console.error(error);
+            const msg = error.response?.data?.message || "Erro ao alterar senha.";
+            toast.error(msg);
+        } finally {
+            setIsPasswordLoading(false);
+        }
+    };
+
+    const handlePasswordChange = (field: string, value: string) => {
+        setPasswordData(prev => ({ ...prev, [field]: value }));
     };
 
     if (!user) {
@@ -83,7 +138,7 @@ export default function ProfilePage() {
                         <div className="flex flex-col items-center space-y-4">
                             <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
                                 <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
-                                    <AvatarImage src={user.avatar || ""} />
+                                    <AvatarImage src={getAvatarUrl(user.avatar)} />
                                     <AvatarFallback className="text-4xl">
                                         {user.name?.charAt(0).toUpperCase() || <User className="h-12 w-12" />}
                                     </AvatarFallback>
@@ -131,6 +186,58 @@ export default function ProfilePage() {
                                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                     <Save className="mr-2 h-4 w-4" />
                                     Salvar Alterações
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Alterar Senha</CardTitle>
+                        <CardDescription>Atualize sua senha de acesso.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="oldPassword">Senha Atual</Label>
+                                <Input
+                                    id="oldPassword"
+                                    type="password"
+                                    value={passwordData.oldPassword}
+                                    onChange={(e) => handlePasswordChange("oldPassword", e.target.value)}
+                                    placeholder="Digite sua senha atual"
+                                    required
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="newPassword">Nova Senha</Label>
+                                <Input
+                                    id="newPassword"
+                                    type="password"
+                                    value={passwordData.newPassword}
+                                    onChange={(e) => handlePasswordChange("newPassword", e.target.value)}
+                                    placeholder="Digite a nova senha"
+                                    required
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="confirmPassword">Confirmar Nova Senha</Label>
+                                <Input
+                                    id="confirmPassword"
+                                    type="password"
+                                    value={passwordData.confirmPassword}
+                                    onChange={(e) => handlePasswordChange("confirmPassword", e.target.value)}
+                                    placeholder="Confirme a nova senha"
+                                    required
+                                />
+                            </div>
+
+                            <div className="pt-4 flex justify-end">
+                                <Button type="submit" disabled={isPasswordLoading} variant="outline">
+                                    {isPasswordLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                    <Lock className="mr-2 h-4 w-4" />
+                                    Alterar Senha
                                 </Button>
                             </div>
                         </form>

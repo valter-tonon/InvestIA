@@ -18,6 +18,7 @@ interface AuthContextType {
     login: (data: LoginInput) => Promise<void>;
     register: (data: RegisterInput) => Promise<void>;
     logout: () => Promise<void>;
+    refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -77,8 +78,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    // Refrescar dados do usuário do servidor (útil após atualizações de perfil)
+    const refreshUser = async () => {
+        try {
+            const userData = await authApi.me();
+            setUser(userData);
+        } catch {
+            // Ignorar erros ao refrescar
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser }}>
             {children}
         </AuthContext.Provider>
     );
