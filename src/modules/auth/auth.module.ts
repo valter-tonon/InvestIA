@@ -39,6 +39,6 @@ import { AuthController } from './infrastructure/controllers/auth.controller';
         JwtStrategy,
         JwtAuthGuard, // ARCH-002: Add guard to providers
     ],
-    exports: [JwtStrategy, JwtAuthGuard, PassportModule], // ARCH-002: Export guard for use in other modules
+    exports: [JwtStrategy, JwtAuthGuard, PassportModule, PasswordService], // ARCH-002: Export guard and PasswordService
 })
 export class AuthModule { }

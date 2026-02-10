@@ -14,7 +14,7 @@ import {
     TrendingUp,
     Calculator
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useState, useEffect } from "react";
@@ -154,7 +154,7 @@ export function AppSidebar({ collapsed, setCollapsed }: AppSidebarProps) {
                     >
                         <Link href="/profile" className="flex items-center gap-3 flex-1 overflow-hidden" title="Meu Perfil">
                             <Avatar className="h-8 w-8 shrink-0 border border-border">
-                                <AvatarImage src={user?.avatar || ""} />
+                                <AvatarImage src={getAvatarUrl(user?.avatar)} />
                                 <AvatarFallback className="bg-gradient-to-br from-primary to-blue-600 text-[10px] font-bold text-white uppercase">
                                     {user?.name?.slice(0, 2) || "U"}
                                 </AvatarFallback>

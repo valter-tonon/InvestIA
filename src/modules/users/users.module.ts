@@ -6,7 +6,9 @@ import {
     ListUsersUseCase,
     UpdateUserUseCase,
     DeleteUserUseCase,
+    ChangePasswordUseCase,
 } from './application/use-cases';
+
 import { UsersController } from './infrastructure/controllers/users.controller';
 import { UsersProfileController } from './infrastructure/controllers/users-profile.controller';
 import { PrismaUserRepository } from './infrastructure/repositories/prisma-user.repository';
@@ -27,10 +29,13 @@ import { LocalStorageProvider } from '../../common/providers/storage/local-stora
         ListUsersUseCase,
         UpdateUserUseCase,
         DeleteUserUseCase,
+        ChangePasswordUseCase,
+
     ],
     exports: [
         // ARCH-002: Export repository for use in other modules (e.g., Auth)
         'IUserRepository',
+        ChangePasswordUseCase,
     ],
 })
 export class UsersModule { }
