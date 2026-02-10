@@ -161,15 +161,13 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            echo "==> Stopping orphan containers..."
-            docker compose -f docker-compose.prod.yml down --remove-orphans || true
-
-            echo "==> Removing old images to force clean build..."
-            docker compose -f docker-compose.prod.yml down --rmi local || true
-
-            echo "==> Building and deploying containers (no cache)..."
+            echo "==> Building new images (while app is running)..."
+            # Build first while old containers are running
             docker compose -f docker-compose.prod.yml build --no-cache
-            docker compose -f docker-compose.prod.yml up -d
+
+            echo "==> Swapping containers (Zero Downtime)..."
+            # Atomic swap: recreates only changed containers and restarts them
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
             echo "==> Waiting for services to start..."
             sleep 30
