@@ -5,4 +5,8 @@ export class UpdateUserInput {
     @IsString()
     @MinLength(2, { message: 'Nome deve ter no mínimo 2 caracteres' })
     name?: string;
+
+    @IsOptional()
+    @IsString()
+    avatar?: string;
 }

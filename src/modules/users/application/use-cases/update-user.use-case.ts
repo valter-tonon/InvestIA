@@ -24,6 +24,7 @@ export class UpdateUserUseCase {
 
         const user = await this.userRepository.update(id, {
             name: input.name,
+            avatar: input.avatar,
         });
 
         this.logger.log(`User updated: ${user.id}`);

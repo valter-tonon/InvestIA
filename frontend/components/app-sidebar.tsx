@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const sidebarLinks = [
     { name: "Visão Geral", href: "/dashboard", icon: LayoutDashboard },
@@ -151,19 +152,24 @@ export function AppSidebar({ collapsed, setCollapsed }: AppSidebarProps) {
                             collapsed ? "lg:justify-center" : ""
                         )}
                     >
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-blue-600 text-[10px] font-bold text-white uppercase shadow-lg shadow-primary/20">
-                            {user?.name?.slice(0, 2) || "U"}
-                        </div>
+                        <Link href="/profile" className="flex items-center gap-3 flex-1 overflow-hidden" title="Meu Perfil">
+                            <Avatar className="h-8 w-8 shrink-0 border border-border">
+                                <AvatarImage src={user?.avatar || ""} />
+                                <AvatarFallback className="bg-gradient-to-br from-primary to-blue-600 text-[10px] font-bold text-white uppercase">
+                                    {user?.name?.slice(0, 2) || "U"}
+                                </AvatarFallback>
+                            </Avatar>
 
-                        <div
-                            className={cn(
-                                "flex flex-1 flex-col overflow-hidden transition-all duration-300",
-                                collapsed ? "lg:w-0 lg:opacity-0 lg:hidden" : "lg:w-auto lg:opacity-100"
-                            )}
-                        >
-                            <span className="truncate text-sm font-medium">{user?.name}</span>
-                            <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
-                        </div>
+                            <div
+                                className={cn(
+                                    "flex flex-col overflow-hidden transition-all duration-300",
+                                    collapsed ? "lg:w-0 lg:opacity-0 lg:hidden" : "lg:w-auto lg:opacity-100"
+                                )}
+                            >
+                                <span className="truncate text-sm font-medium">{user?.name}</span>
+                                <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
+                            </div>
+                        </Link>
 
                         <Button
                             variant="ghost"

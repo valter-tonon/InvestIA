@@ -17,6 +17,8 @@ export interface AuthResponse {
         id: string;
         email: string;
         name: string;
+        avatar?: string | null;
+        role: 'USER' | 'ADMIN' | 'SUPER_ADMIN';
     };
     accessToken: string;
     refreshToken: string;

@@ -8,12 +8,15 @@ import {
     DeleteUserUseCase,
 } from './application/use-cases';
 import { UsersController } from './infrastructure/controllers/users.controller';
+import { UsersProfileController } from './infrastructure/controllers/users-profile.controller';
 import { PrismaUserRepository } from './infrastructure/repositories/prisma-user.repository';
+import { LocalStorageProvider } from '../../common/providers/storage/local-storage.provider';
 
 @Module({
     imports: [DatabaseModule], // ARCH-002: Removed AuthModule - AppModule imports both Auth and Users
-    controllers: [UsersController],
+    controllers: [UsersController, UsersProfileController],
     providers: [
+        LocalStorageProvider,
         // ARCH-001: Register repository implementation with interface token
         {
             provide: 'IUserRepository',

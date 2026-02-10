@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { listActivityLogs, ActivityLog } from "@/lib/api/admin";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,7 @@ export default function ActivityLogsPage() {
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
 
-    useEffect(() => {
-        loadLogs();
-    }, [page]);
-
-    const loadLogs = async () => {
+    const loadLogs = useCallback(async () => {
         try {
             setLoading(true);
             const response = await listActivityLogs(page, 20);
@@ -31,7 +27,11 @@ export default function ActivityLogsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page]);
+
+    useEffect(() => {
+        loadLogs();
+    }, [loadLogs]);
 
     const getActionBadgeColor = (action: string) => {
         if (action.includes('CREATE') || action.includes('REGISTER')) return 'bg-green-500';
@@ -60,7 +60,7 @@ export default function ActivityLogsPage() {
         if (!details || typeof details !== 'object') return null;
 
         try {
-            const detailsObj = details as Record<string, any>;
+            const detailsObj = details as Record<string, unknown>;
             const entries = Object.entries(detailsObj);
 
             if (entries.length === 0) return null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { listSubscriptions, Subscription, updateSubscription } from "@/lib/api/admin";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,14 +33,10 @@ export default function SubscriptionsManagementPage() {
         newStatus?: 'ACTIVE' | 'CANCELED' | 'EXPIRED' | 'TRIAL';
     }>({ open: false, type: null });
 
-    useEffect(() => {
-        loadSubscriptions();
-    }, [page, statusFilter]);
-
-    const loadSubscriptions = async () => {
+    const loadSubscriptions = useCallback(async () => {
         try {
             setLoading(true);
-            const params: any = { page, perPage: 20 };
+            const params: Record<string, string | number> = { page, perPage: 20 };
             if (statusFilter !== 'all') params.status = statusFilter;
 
             const response = await listSubscriptions(params);
@@ -52,7 +48,11 @@ export default function SubscriptionsManagementPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, statusFilter]);
+
+    useEffect(() => {
+        loadSubscriptions();
+    }, [loadSubscriptions]);
 
     const handleUpdateStatus = async () => {
         if (!selectedSubscription || !actionDialog.newStatus) return;

@@ -4,6 +4,7 @@ export class UserEntity {
     id: string;
     email: string;
     name: string | null;
+    avatar: string | null;
     password: string; // ARCH-002: Added for auth operations
     role: string;
     createdAt: Date;
@@ -33,6 +34,7 @@ export class UserEntity {
             id: prismaUser.id,
             email: prismaUser.email,
             name: prismaUser.name,
+            avatar: prismaUser.avatar || null,
             password: prismaUser.password,
             role: prismaUser.role || 'USER',
             createdAt: prismaUser.createdAt,

@@ -10,7 +10,7 @@ export interface IUserRepository {
     findByEmail(email: string): Promise<User | null>;
     findAll(page: number, limit: number): Promise<User[]>;
     create(data: { email: string; name?: string; password: string }): Promise<User>;
-    update(id: string, data: { email?: string; name?: string; password?: string }): Promise<User>;
+    update(id: string, data: { email?: string; name?: string; password?: string; avatar?: string }): Promise<User>;
     delete(id: string): Promise<void>;
     count(): Promise<number>;
 }

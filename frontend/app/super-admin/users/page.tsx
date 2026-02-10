@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { listUsers, AdminUser, updateUserRole, suspendUser, reactivateUser, deleteUser } from "@/lib/api/admin";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,14 +35,10 @@ export default function UsersManagementPage() {
         newRole?: 'USER' | 'ADMIN' | 'SUPER_ADMIN';
     }>({ open: false, type: null });
 
-    useEffect(() => {
-        loadUsers();
-    }, [page, search, roleFilter]);
-
-    const loadUsers = async () => {
+    const loadUsers = useCallback(async () => {
         try {
             setLoading(true);
-            const params: any = { page, perPage: 20 };
+            const params: Record<string, string | number> = { page, perPage: 20 };
             if (search) params.search = search;
             if (roleFilter !== 'all') params.role = roleFilter;
 
@@ -55,7 +51,11 @@ export default function UsersManagementPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, search, roleFilter]);
+
+    useEffect(() => {
+        loadUsers();
+    }, [loadUsers]);
 
     const handleAction = async () => {
         if (!selectedUser || !actionDialog.type) return;
@@ -299,7 +299,7 @@ export default function UsersManagementPage() {
                     </AlertDialogHeader>
                     <Select
                         value={actionDialog.newRole}
-                        onValueChange={(value: any) => setActionDialog({ ...actionDialog, newRole: value })}
+                        onValueChange={(value: string) => setActionDialog({ ...actionDialog, newRole: value as 'USER' | 'ADMIN' | 'SUPER_ADMIN' })}
                     >
                         <SelectTrigger>
                             <SelectValue placeholder="Selecione a role" />

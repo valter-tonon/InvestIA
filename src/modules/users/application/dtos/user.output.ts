@@ -2,6 +2,8 @@ export class UserOutput {
     id: string;
     email: string;
     name: string | null;
+    avatar?: string | null;
+    role: string;
     createdAt: Date;
     updatedAt: Date;
 
@@ -9,6 +11,8 @@ export class UserOutput {
         id: string;
         email: string;
         name: string | null;
+        avatar?: string | null;
+        role: string;
         createdAt: Date;
         updatedAt: Date;
     }): UserOutput {
@@ -16,6 +20,8 @@ export class UserOutput {
         output.id = user.id;
         output.email = user.email;
         output.name = user.name;
+        output.avatar = user.avatar;
+        output.role = user.role;
         output.createdAt = user.createdAt;
         output.updatedAt = user.updatedAt;
         return output;
