@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, UnauthorizedException, Logger, Inject } from '@nestjs/common';
-import { IUserRepository } from '../interfaces/user-repository.interface';
+import type { IUserRepository } from '../interfaces/user-repository.interface';
 import { PasswordService } from '../../../auth/domain/services/password.service';
 import { ChangePasswordInput } from '../dtos/change-password.input';
 
