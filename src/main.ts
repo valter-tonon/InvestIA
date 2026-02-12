@@ -20,7 +20,18 @@ async function bootstrap() {
   // SEC-005: Cookie parser for HttpOnly cookies
   app.use(cookieParser());
 
-  // SEC-012: Security headers with Helmet
+  // SEC-019: CORS com variável de ambiente (MUST be before Helmet)
+  const corsOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(',').map(origin => origin.trim())
+    : ['http://localhost:3000', 'https://chat.criativeweb.net.br'];
+
+  app.enableCors({
+    origin: corsOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true, // SEC-005: Allow cookies
+  });
+
+  // SEC-012: Security headers with Helmet (after CORS)
   app.use(helmet({
     contentSecurityPolicy: {
       directives: {
@@ -31,6 +42,7 @@ async function bootstrap() {
       },
     },
     crossOriginEmbedderPolicy: false, // Needed for Swagger
+    crossOriginResourcePolicy: false, // Allow CORS requests
   }));
 
   // Validação global de DTOs
@@ -41,17 +53,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-
-  // SEC-019: CORS com variável de ambiente
-  const corsOrigins = process.env.CORS_ORIGINS
-    ? process.env.CORS_ORIGINS.split(',')
-    : ['http://localhost:3000', 'https://chat.criativeweb.net.br'];
-
-  app.enableCors({
-    origin: corsOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true, // SEC-005: Allow cookies
-  });
 
   // Configuração do Swagger
   const config = new DocumentBuilder()
