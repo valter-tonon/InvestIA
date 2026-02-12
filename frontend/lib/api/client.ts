@@ -10,10 +10,16 @@ export const api = axios.create({
     withCredentials: true, // SEC-005: Send cookies automatically
 });
 
-// SEC-007: Add CSRF token to state-changing requests
+// SEC-007: Add JWT token and CSRF token to requests
 api.interceptors.request.use((config) => {
-    // Read CSRF token from cookie
-    if (typeof document !== 'undefined') {
+    if (typeof window !== 'undefined') {
+        // Add JWT token to Authorization header
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        // Read CSRF token from cookie
         const csrfToken = document.cookie
             .split('; ')
             .find(row => row.startsWith('XSRF-TOKEN='))
