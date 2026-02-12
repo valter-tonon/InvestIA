@@ -46,7 +46,7 @@ export const uploadAvatar = async (file: File) => {
     return response.data;
 };
 
-export const changePassword = async (data: any) => {
+export const changePassword = async (data: { oldPassword: string; newPassword: string }) => {
     const response = await userApi.patch('/profile/change-password', data);
     return response.data;
 };

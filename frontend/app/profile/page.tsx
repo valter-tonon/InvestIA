@@ -107,9 +107,10 @@ export default function ProfilePage() {
             });
             toast.success("Senha alterada com sucesso!");
             setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
-            const msg = error.response?.data?.message || "Erro ao alterar senha.";
+            const axiosError = error as { response?: { data?: { message?: string } } };
+            const msg = axiosError.response?.data?.message || "Erro ao alterar senha.";
             toast.error(msg);
         } finally {
             setIsPasswordLoading(false);
