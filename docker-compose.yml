@@ -8,8 +8,11 @@ services:
     ports:
       - "3001:3000" # API (mapeada para 3001 no host)
       - "9229:9229" # Debugger
+    env_file:
+      - .env
     environment:
       - NODE_ENV=development
+      - PORT=3000  # Must match the container port in the ports mapping (3001:3000)
       - DATABASE_URL=postgresql://sardinha:sardinha123@db:5432/investia_db?schema=public
       - REDIS_HOST=redis
       - REDIS_PORT=6379

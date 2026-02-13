@@ -11,17 +11,19 @@ model User {
   id               String            @id @default(uuid())
   email            String            @unique
   name             String?
-  avatar           String?           // URL or path to avatar image
   createdAt        DateTime          @default(now()) @map("created_at")
   updatedAt        DateTime          @updatedAt @map("updated_at")
   password         String
   deleted_at       DateTime?
   role             UserRole          @default(USER)
+  avatar           String?
+  stripeCustomerId String?           @unique @map("stripe_customer_id")
   philosophies     Philosophy[]
   priceAlerts      PriceAlert[]
   strategyProfiles StrategyProfile[]
-  wallets          Wallet[]
   subscription     Subscription?
+  transactions     Transaction[]
+  wallets          Wallet[]
 
   @@map("users")
 }
@@ -44,23 +46,23 @@ model Philosophy {
 }
 
 model Asset {
-  id                     String         @id @default(uuid())
-  ticker                 String         @unique
+  id                     String        @id @default(uuid())
+  ticker                 String        @unique
   name                   String
   type                   String
   sector                 String?
-  currentPrice           Decimal?       @map("current_price") @db.Decimal(12, 2)
-  dividendYield          Decimal?       @map("dividend_yield") @db.Decimal(5, 4)
-  priceToEarnings        Decimal?       @map("price_to_earnings") @db.Decimal(8, 2)
-  priceToBook            Decimal?       @map("price_to_book") @db.Decimal(8, 2)
-  roe                    Decimal?       @db.Decimal(5, 4)
-  netMargin              Decimal?       @map("net_margin") @db.Decimal(5, 4)
-  debtToEquity           Decimal?       @map("debt_to_equity") @db.Decimal(8, 2)
-  lastUpdated            DateTime?      @map("last_updated")
-  createdAt              DateTime       @default(now()) @map("created_at")
-  updatedAt              DateTime       @updatedAt @map("updated_at")
+  currentPrice           Decimal?      @map("current_price") @db.Decimal(12, 2)
+  dividendYield          Decimal?      @map("dividend_yield") @db.Decimal(5, 4)
+  priceToEarnings        Decimal?      @map("price_to_earnings") @db.Decimal(8, 2)
+  priceToBook            Decimal?      @map("price_to_book") @db.Decimal(8, 2)
+  roe                    Decimal?      @db.Decimal(5, 4)
+  netMargin              Decimal?      @map("net_margin") @db.Decimal(5, 4)
+  debtToEquity           Decimal?      @map("debt_to_equity") @db.Decimal(8, 2)
+  lastUpdated            DateTime?     @map("last_updated")
+  createdAt              DateTime      @default(now()) @map("created_at")
+  updatedAt              DateTime      @updatedAt @map("updated_at")
   deleted_at             DateTime?
-  average_purchase_price Decimal?       @db.Decimal(12, 2)
+  average_purchase_price Decimal?      @db.Decimal(12, 2)
   dividends              Dividend[]
   priceAlerts            PriceAlert[]
   walletAssets           WalletAsset[]
@@ -154,6 +156,134 @@ model PriceAlert {
   @@map("price_alerts")
 }
 
+model Plan {
+  id              String         @id @default(uuid())
+  name            String         @unique
+  displayName     String
+  description     String?
+  price           Decimal        @default(0) @db.Decimal(10, 2)
+  interval        PlanInterval   @default(MONTHLY)
+  features        Json
+  maxAssets       Int?
+  maxWallets      Int?
+  maxAlerts       Int?
+  aiAnalysis      Boolean        @default(false)
+  prioritySupport Boolean        @default(false)
+  customizable    Boolean        @default(false)
+  active          Boolean        @default(true)
+  sortOrder       Int            @default(0)
+  stripePriceId   String?        @map("stripe_price_id")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+  subscriptions   Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id           String             @id @default(uuid())
+  userId       String             @unique @map("user_id")
+  planId       String             @map("plan_id")
+  status       SubscriptionStatus @default(ACTIVE)
+  startDate    DateTime           @default(now()) @map("start_date")
+  endDate      DateTime?          @map("end_date")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+  plan         Plan               @relation(fields: [planId], references: [id])
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("subscriptions")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String?  @map("user_id")
+  action    String
+  details   Json?
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+model EconomicIndicator {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  name        String
+  value       Float
+  lastUpdated DateTime @map("last_updated")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("economic_indicators")
+}
+
+model Transaction {
+  id             String            @id @default(uuid())
+  userId         String            @map("user_id")
+  subscriptionId String?           @map("subscription_id")
+  gateway        PaymentGateway
+  gatewayTxId    String?           @map("gateway_tx_id")
+  amount         Decimal           @db.Decimal(10, 2)
+  currency       String            @default("BRL")
+  status         TransactionStatus
+  type           TransactionType
+  metadata       Json?
+  errorMessage   String?           @map("error_message")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+  processedAt    DateTime?         @map("processed_at")
+  subscription   Subscription?     @relation(fields: [subscriptionId], references: [id])
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([gatewayTxId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("transactions")
+}
+
+model ExternalApiLog {
+  id              String   @id @default(uuid())
+  provider        String
+  endpoint        String
+  method          String
+  requestHeaders  Json?    @map("request_headers")
+  requestBody     Json?    @map("request_body")
+  statusCode      Int?     @map("status_code")
+  responseHeaders Json?    @map("response_headers")
+  responseBody    Json?    @map("response_body")
+  duration        Int?
+  success         Boolean
+  errorMessage    String?  @map("error_message")
+  userId          String?  @map("user_id")
+  transactionId   String?  @map("transaction_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([provider])
+  @@index([createdAt])
+  @@index([transactionId])
+  @@map("external_api_logs")
+}
+
+model PaymentGatewayConfig {
+  id         String         @id @default(uuid())
+  gateway    PaymentGateway @unique
+  apiKey     String         @map("api_key")
+  secretKey  String         @map("secret_key")
+  webhookKey String?        @map("webhook_key")
+  isActive   Boolean        @default(false) @map("is_active")
+  isTest     Boolean        @default(true) @map("is_test")
+  config     Json?
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @updatedAt @map("updated_at")
+
+  @@map("payment_gateway_configs")
+}
+
 enum UserRole {
   USER
   ADMIN
@@ -174,60 +304,6 @@ enum AssetType {
   CRYPTO
 }
 
-// Planos de assinatura (flexível para customização)
-model Plan {
-  id            String         @id @default(uuid())
-  name          String         @unique // Identificador interno: "free", "pro", "premium", "custom_123"
-  displayName   String         // Nome exibido: "Plano Free", "Plano Pro"
-  description   String?        // Descrição do plano
-  price         Decimal        @default(0) @db.Decimal(10, 2) // Preço em reais
-  interval      PlanInterval   @default(MONTHLY) // monthly, yearly, lifetime
-  features      Json           // Lista de features: { "maxAssets": 10, "aiAnalysis": true, ... }
-  maxAssets     Int?           // Limite de ativos (null = ilimitado)
-  maxWallets    Int?           // Limite de carteiras (null = ilimitado)
-  maxAlerts     Int?           // Limite de alertas de preço (null = ilimitado)
-  aiAnalysis    Boolean        @default(false) // Acesso a análise AI
-  prioritySupport Boolean      @default(false) // Suporte prioritário
-  customizable  Boolean        @default(false) // Plano pode ser customizado
-  active        Boolean        @default(true) // Plano ativo/disponível
-  sortOrder     Int            @default(0) // Ordem de exibição
-  createdAt     DateTime       @default(now()) @map("created_at")
-  updatedAt     DateTime       @updatedAt @map("updated_at")
-  subscriptions Subscription[]
-
-  @@map("plans")
-}
-
-// Assinatura do usuário (desacoplada de gateway de pagamento)
-model Subscription {
-  id        String             @id @default(uuid())
-  userId    String             @unique @map("user_id")
-  planId    String             @map("plan_id")
-  plan      Plan               @relation(fields: [planId], references: [id])
-  status    SubscriptionStatus @default(ACTIVE)
-  startDate DateTime           @default(now()) @map("start_date")
-  endDate   DateTime?          @map("end_date")
-  createdAt DateTime           @default(now()) @map("created_at")
-  updatedAt DateTime           @updatedAt @map("updated_at")
-  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("subscriptions")
-}
-
-// Log de atividades para auditoria
-model ActivityLog {
-  id        String   @id @default(uuid())
-  userId    String?  @map("user_id")
-  action    String
-  details   Json?
-  ipAddress String?  @map("ip_address")
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@index([userId])
-  @@index([createdAt])
-  @@map("activity_logs")
-}
-
 enum PlanInterval {
   MONTHLY
   YEARLY
@@ -241,15 +317,25 @@ enum SubscriptionStatus {
   TRIAL
 }
 
-// Indicadores Econômicos (Selic, CDI, IPCA)
-model EconomicIndicator {
-  id          String   @id @default(uuid())
-  key         String   @unique // SELIC, CDI, IPCA
-  name        String
-  value       Float    // Valor percentual (ex: 12.75)
-  lastUpdated DateTime @map("last_updated")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+enum PaymentGateway {
+  STRIPE
+  PAGARME
+  MERCADOPAGO
+}
 
-  @@map("economic_indicators")
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  CANCELED
+}
+
+enum TransactionType {
+  SUBSCRIPTION_CREATE
+  SUBSCRIPTION_RENEW
+  UPGRADE
+  DOWNGRADE
+  REFUND
 }

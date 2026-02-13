@@ -26,7 +26,7 @@ COPY . .
 RUN npx prisma generate || true
 
 # Criar diretórios writable com permissões corretas
-RUN mkdir -p /usr/src/app/public /usr/src/app/uploads && \
+RUN mkdir -p /usr/src/app/public /usr/src/app/uploads /usr/src/app/dist && \
     chown -R nestjs:nodejs /usr/src/app
 
 # Usar usuário não-root

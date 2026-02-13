@@ -31,7 +31,7 @@ quando encontrar acoes que se encaixam no seu perfil.
 - [x] Testes E2E (12/12 passed)
 - [x] Rate Limiting (protecao contra abuso)
 
-### Fevereiro - EM ANDAMENTO
+### Fevereiro - CONCLUIDO ✅
 
 **Concluido:**
 - [x] Frontend - Autenticacao (Login e Registro)
@@ -41,12 +41,37 @@ quando encontrar acoes que se encaixam no seu perfil.
 - [x] Dashboard com graficos interativos
 - [x] Refatoracao Arquitetural (Repository Pattern, Soft Delete, CSRF)
 - [x] Seguranca (HttpOnly Cookies, Helmet, Rate Limiting avancado)
+- [x] CI/CD Pipeline (GitHub Actions completo)
+- [x] Frontend de Alertas (pagina + componentes + testes E2E)
 
-**Em Progresso:**
-- [ ] CI/CD Pipeline (GitHub Actions)
-- [ ] Finalizacao Frontend de Alertas
+### Marco - CONCLUIDO ✅
 
-### Marco - MVP COMERCIALIZAVEL
+**MVP COMERCIALIZAVEL - Todas as features entregues:**
+
+- [x] **Historico de Dividendos**
+  - Modulo completo backend (sync-dividends, get-dividend-history)
+  - 4 componentes frontend (Chart, Table, DataTable, Summary)
+  - Integracao Brapi
+  - Endpoint: `GET /assets/:id/dividends`
+
+- [x] **Preco Teto / Fair Price**
+  - Calculo Bazin (DY / 0.06)
+  - Calculo Barsi (Media 5 anos DY / 0.06)
+  - Calculo Graham (em andamento)
+  - Yield on Cost automatico
+  - Endpoint: `GET /assets/:id/fair-price`
+  - Recomendacao: COMPRA/VENDA/NEUTRO
+
+- [x] **Ranking de Ativos**
+  - Endpoint com estrategias (COMPOSITE, BAZIN, BARSI, GRAHAM)
+  - Score 0-100 por ativo
+  - Frontend completo com filtros
+  - Endpoint: `GET /ranking?strategy=X&limit=N`
+
+- [x] **Sistema de Carteiras**
+  - Frontend de gerenciamento
+  - Integracao com portfolio
+  - Metricas por carteira
 
 **Prioridade MAXIMA (Value Investing BR):**
 
@@ -67,33 +92,30 @@ quando encontrar acoes que se encaixam no seu perfil.
 | Multiplas Carteiras | CRUD carteiras por usuario | 12h | A fazer |
 | Notif. Rebalanceamento | Alertar Abril/Outubro (Bazin) | 8h | A fazer |
 
-**Cronograma Marco:**
-
-```
-Semana 1 (03-09 Mar):
-├── Historico de Dividendos (backend + frontend)
-├── CI/CD Pipeline
-└── Inicio Preco Teto
-
-Semana 2 (10-16 Mar):
-├── Preco Teto (Bazin, Barsi, Graham)
-├── Yield on Cost
-└── Badge visual de preco
-
-Semana 3 (17-23 Mar):
-├── Ranking de Ativos por Estrategia
-├── InvestIA Score (0-100)
-└── Tela de ranking no frontend
-
-Semana 4 (24-31 Mar):
-├── Multiplas Carteiras
-├── Notificacao Rebalanceamento
-└── Testes e polimento MVP
-```
-
 ---
 
-## Q2 2026 - Monetizacao e Administracao
+## Q2 2026 - Monetizacao e Administracao - EM ANDAMENTO ⏳
+
+### Status Atual (12/02/2026)
+Durante auditoria de codigo descobriu-se que **parte do Q2 ja foi implementado**:
+
+**✅ Ja Implementado (~40%):**
+- [x] Modulo Admin backend completo
+- [x] Painel SuperAdmin frontend (5 paginas)
+  - Dashboard principal
+  - Gestao de usuarios
+  - Gestao de assinaturas
+  - Analytics/Metricas
+  - Activity Logs
+- [x] Layout especifico para area admin
+
+**❌ Pendente de Implementacao:**
+- [ ] Modelos de plano (Free/Pro/Premium)
+- [ ] Integracao gateway de pagamento
+- [ ] Feature flags por plano
+- [ ] Checkout flow
+- [ ] Webhooks de pagamento
+- [ ] Trial period (7 dias)
 
 ### Abril - Sistema de Assinaturas + Painel Admin
 

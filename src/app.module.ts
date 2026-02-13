@@ -23,6 +23,7 @@ import { CsrfMiddleware } from './common/middleware/csrf.middleware';
 import { RankingModule } from './modules/ranking/ranking.module';
 import { EconomicIndicatorsModule } from './modules/economic-indicators/economic-indicators.module';
 import { AdminModule } from './modules/admin';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -73,10 +74,10 @@ import { AdminModule } from './modules/admin';
     AlertsModule,
     DividendsModule,
     FairPriceModule,
-    FairPriceModule,
     RankingModule,
     EconomicIndicatorsModule,
     AdminModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [
