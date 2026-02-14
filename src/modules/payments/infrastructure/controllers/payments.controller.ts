@@ -30,7 +30,7 @@ export class PaymentsController {
         private readonly cancelSubscription: CancelSubscriptionUseCase,
         private readonly getSubscription: GetSubscriptionUseCase,
         private readonly getTransactions: GetTransactionsUseCase,
-        private readonly listPlans: ListPlansUseCase,
+        private readonly listPlansUseCase: ListPlansUseCase,
     ) { }
 
     /**
@@ -86,10 +86,10 @@ export class PaymentsController {
      * Get list of active plans (public, JWT required)
      */
     @Get('plans')
-    async listPlans(
+    async listAllPlans(
         @Query('activeOnly') activeOnly?: string,
     ) {
-        return this.listPlans.execute({
+        return this.listPlansUseCase.execute({
             activeOnly: activeOnly === 'true',
         });
     }

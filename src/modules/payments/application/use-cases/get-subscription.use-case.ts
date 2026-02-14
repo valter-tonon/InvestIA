@@ -5,41 +5,11 @@ export interface GetSubscriptionInput {
     userId: string;
 }
 
-export interface SubscriptionOutput {
-    id: string;
-    userId: string;
-    planId: string;
-    status: string;
-    startDate: Date;
-    endDate: Date | null;
-    createdAt: Date;
-    updatedAt: Date;
-    plan: {
-        id: string;
-        name: string;
-        displayName: string;
-        description: string | null;
-        price: number;
-        interval: string;
-        features: Record<string, unknown>;
-        maxAssets: number | null;
-        maxWallets: number | null;
-        maxAlerts: number | null;
-        aiAnalysis: boolean;
-        prioritySupport: boolean;
-        customizable: boolean;
-        active: boolean;
-        sortOrder: number;
-        createdAt: Date;
-        updatedAt: Date;
-    };
-}
-
 @Injectable()
 export class GetSubscriptionUseCase {
     constructor(private readonly prisma: PrismaService) { }
 
-    async execute(input: GetSubscriptionInput): Promise<SubscriptionOutput | null> {
+    async execute(input: GetSubscriptionInput): Promise<any> {
         const subscription = await this.prisma.subscription.findUnique({
             where: { userId: input.userId },
             include: { plan: true },
@@ -54,6 +24,7 @@ export class GetSubscriptionUseCase {
             plan: {
                 ...subscription.plan,
                 price: Number(subscription.plan.price),
+                interval: subscription.plan.interval,
             },
         };
     }

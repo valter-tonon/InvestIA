@@ -74,7 +74,7 @@ export class CreateSubscriptionUseCase {
             const gateway = await this.gatewayFactory.getActive();
 
             // 5. Criar ou reutilizar customer no Stripe
-            let stripeCustomerId = user.stripeCustomerId;
+            let stripeCustomerId = (user as any).stripeCustomerId;
             if (!stripeCustomerId) {
                 const customer = await gateway.createCustomer(input.userId, user.email);
                 stripeCustomerId = customer.id;
@@ -87,7 +87,7 @@ export class CreateSubscriptionUseCase {
 
             // 6. Criar subscription no gateway
             // Usar stripePriceId se disponível, senão fallback para plan.name
-            const stripePriceId = plan.stripePriceId || plan.name;
+            const stripePriceId = (plan as any).stripePriceId || plan.name;
             const gatewaySubscription = await gateway.createSubscription({
                 userId: input.userId,
                 planId: stripePriceId,
